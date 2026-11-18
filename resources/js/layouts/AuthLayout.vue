@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ConfigProvider } from 'reka-ui';
 import AuthLayout from '@/layouts/auth/AuthSimpleLayout.vue';
 
 const { title = '', description = '' } = defineProps<{
@@ -8,7 +9,9 @@ const { title = '', description = '' } = defineProps<{
 </script>
 
 <template>
-    <AuthLayout :title="title" :description="description">
-        <slot />
-    </AuthLayout>
+    <ConfigProvider dir="rtl">
+        <AuthLayout :title="title" :description="description">
+            <slot />
+        </AuthLayout>
+    </ConfigProvider>
 </template>
