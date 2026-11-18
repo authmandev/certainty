@@ -9,6 +9,7 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card';
+import { formatNumber } from '@/lib/format';
 import { dashboard } from '@/routes/admin';
 
 defineOptions({
@@ -43,7 +44,7 @@ defineProps<{
                 </CardHeader>
                 <CardContent>
                     <CardTitle class="text-3xl tabular-nums">
-                        {{ customersCount.toLocaleString('ar') }}
+                        {{ formatNumber(customersCount) }}
                     </CardTitle>
                 </CardContent>
             </Card>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Study;
 use App\Models\User;
 use Inertia\Testing\AssertableInertia as Assert;
 
@@ -26,4 +27,24 @@ test('administrators are redirected to the admin dashboard', function () {
     $this->actingAs(User::factory()->admin()->create())
         ->get(route('dashboard'))
         ->assertRedirect(route('admin.dashboard'));
+});
+
+test('customers only see their own studies on the dashboard', function () {
+    $this->freezeTime();
+    $customer = User::factory()->create();
+    $ownStudy = Study::factory()->for($customer)->create(['expires_at' => now()->addDays(10)]);
+    $expiredStudy = Study::factory()->for($customer)->expired()->create();
+    Study::factory()->create();
+
+    $this->actingAs($customer)
+        ->get(route('dashboard'))
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('Dashboard')
+            ->has('studies.data', 2)
+            ->where('studies.data.1.id', $ownStudy->id)
+            ->where('studies.data.1.status.value', 'draft')
+            ->where('studies.data.1.days_remaining', 10)
+            ->where('studies.data.0.status.value', 'expired')
+            ->where('studies.data.0.days_remaining', null),
+        );
 });

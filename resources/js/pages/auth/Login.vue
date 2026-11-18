@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { Form, Head } from '@inertiajs/vue3';
-import InputError from '@/components/InputError.vue';
+import { ArrowLeft, Lock, Mail } from '@lucide/vue';
+import AuthField from '@/components/auth/AuthField.vue';
+import AuthStatus from '@/components/auth/AuthStatus.vue';
+import { authButtonClass, authInputClass } from '@/components/auth/authStyles';
 import PasswordInput from '@/components/PasswordInput.vue';
 import TextLink from '@/components/TextLink.vue';
 import { Button } from '@/components/ui/button';
@@ -14,8 +17,8 @@ import { request } from '@/routes/password';
 
 defineOptions({
     layout: {
-        title: 'تسجيل الدخول إلى حسابك',
-        description: 'أدخل بريدك الإلكتروني وكلمة المرور لتسجيل الدخول',
+        title: 'مرحبًا بعودتك',
+        description: 'سجّل الدخول لمتابعة دراسات الجدوى الخاصة بك.',
     },
 });
 
@@ -28,22 +31,21 @@ defineProps<{
 <template>
     <Head title="تسجيل الدخول" />
 
-    <div
-        v-if="status"
-        class="mb-4 text-center text-sm font-medium text-green-600"
-    >
-        {{ status }}
-    </div>
+    <div>
+        <AuthStatus :message="status" />
 
-    <Form
-        v-bind="store.form()"
-        :reset-on-success="['password']"
-        v-slot="{ errors, processing }"
-        class="flex flex-col gap-6"
-    >
-        <div class="grid gap-6">
-            <div class="grid gap-2">
-                <Label for="email">البريد الإلكتروني</Label>
+        <Form
+            v-bind="store.form()"
+            :reset-on-success="['password']"
+            v-slot="{ errors, processing }"
+            class="flex flex-col gap-6"
+        >
+            <AuthField
+                id="email"
+                label="البريد الإلكتروني"
+                :icon="Mail"
+                :error="errors.email"
+            >
                 <Input
                     id="email"
                     type="email"
@@ -53,55 +55,76 @@ defineProps<{
                     :tabindex="1"
                     autocomplete="email"
                     placeholder="email@example.com"
+                    :class="authInputClass"
                 />
-                <InputError :message="errors.email" />
-            </div>
+            </AuthField>
 
-            <div class="grid gap-2">
-                <div class="flex items-center justify-between">
-                    <Label for="password">كلمة المرور</Label>
+            <AuthField
+                id="password"
+                label="كلمة المرور"
+                :icon="Lock"
+                :error="errors.password"
+            >
+                <template #aside>
                     <TextLink
                         v-if="canResetPassword"
                         :href="request()"
-                        class="text-sm"
+                        class="text-xs"
                         :tabindex="5"
                     >
                         نسيت كلمة المرور؟
                     </TextLink>
-                </div>
+                </template>
                 <PasswordInput
                     id="password"
                     name="password"
                     required
                     :tabindex="2"
                     autocomplete="current-password"
-                    placeholder="كلمة المرور"
+                    placeholder="••••••••"
+                    :class="authInputClass"
                 />
-                <InputError :message="errors.password" />
-            </div>
+            </AuthField>
 
-            <div class="flex items-center justify-between">
-                <Label for="remember" class="flex items-center gap-3">
-                    <Checkbox id="remember" name="remember" :tabindex="3" />
-                    <span>تذكرني</span>
-                </Label>
-            </div>
+            <Label
+                for="remember"
+                class="flex w-fit cursor-pointer items-center gap-3 font-normal text-muted-foreground"
+            >
+                <Checkbox id="remember" name="remember" :tabindex="3" />
+                <span>تذكرني على هذا الجهاز</span>
+            </Label>
 
             <Button
                 type="submit"
-                class="mt-4 w-full"
+                :class="authButtonClass"
                 :tabindex="4"
                 :disabled="processing"
                 data-test="login-button"
             >
                 <Spinner v-if="processing" />
                 تسجيل الدخول
+                <ArrowLeft
+                    v-if="!processing"
+                    class="size-4 transition-transform group-hover:-translate-x-1"
+                />
             </Button>
-        </div>
 
-        <div class="text-center text-sm text-muted-foreground">
-            ليس لديك حساب؟
-            <TextLink :href="register()" :tabindex="5">إنشاء حساب</TextLink>
-        </div>
-    </Form>
+            <div class="relative text-center text-sm">
+                <div class="absolute inset-x-0 top-1/2 h-px bg-border"></div>
+                <span class="relative bg-card px-3 text-muted-foreground"
+                    >جديد على المنصة؟</span
+                >
+            </div>
+
+            <Button
+                variant="outline"
+                class="h-12 w-full rounded-xl text-base"
+                as-child
+            >
+                <TextLink :href="register()" :tabindex="5" class="no-underline"
+                    >إنشاء حساب جديد</TextLink
+                >
+            </Button>
+        </Form>
+    </div>
 </template>

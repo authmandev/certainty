@@ -1993,7 +1993,7 @@ The two ways to apply A-05 are:
 
 | ID | Question |
 |---|---|
-| O-01 | Contact, Privacy Policy and Terms: separate pages, or sections in the single landing page? (Recommended: Contact as a landing-page section; Privacy and Terms as separate pages, which is common practice.) |
+| O-01 | Contact, Privacy Policy and Terms: separate pages, or sections in the single landing page? **Implemented per recommendation (Milestone 2):** Contact is a landing-page section; Privacy and Terms are separate pages. Their text is a draft pending client legal review. |
 | O-02 | Extension of a draft that has not expired: add the days to the current `expires_at` (recommended), or count from today? |
 | O-03 | Confirm that the docx source, not the Netlify React build, is the authoritative calculation reference. |
 | O-04 | Confirm that `submission.php` contains no additional calculations, and supply `readableAmount()` if exact number formatting must match. |

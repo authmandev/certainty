@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
-import { LayoutGrid } from '@lucide/vue';
+import { FilePlus2, LayoutGrid } from '@lucide/vue';
 import AppLogo from '@/components/AppLogo.vue';
 import NavMain from '@/components/NavMain.vue';
 import NavUser from '@/components/NavUser.vue';
@@ -14,13 +14,19 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
+import { create as createStudy } from '@/routes/studies';
 import type { NavItem } from '@/types';
 
 const mainNavItems: NavItem[] = [
     {
-        title: 'لوحة التحكم',
+        title: 'دراساتي',
         href: dashboard(),
         icon: LayoutGrid,
+    },
+    {
+        title: 'دراسة جديدة',
+        href: createStudy(),
+        icon: FilePlus2,
     },
 ];
 </script>
