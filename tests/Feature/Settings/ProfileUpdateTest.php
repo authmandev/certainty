@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Study;
 use App\Models\User;
 
 test('profile page is displayed', function () {
@@ -123,4 +124,16 @@ test('correct password must be provided to delete account', function () {
         ->assertRedirect(route('profile.edit'));
 
     expect($user->fresh())->not->toBeNull();
+});
+
+test('accounts that own studies cannot be deleted', function () {
+    $study = Study::factory()->create();
+
+    $this->actingAs($study->user)
+        ->from(route('profile.edit'))
+        ->delete(route('profile.destroy'), ['password' => 'password'])
+        ->assertSessionHasErrors(['password' => 'لا يمكن حذف حساب يحتوي على دراسات. يرجى التواصل معنا للمساعدة.'])
+        ->assertRedirect(route('profile.edit'));
+
+    expect($study->user->fresh())->not->toBeNull();
 });

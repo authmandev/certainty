@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ConfigProvider } from 'reka-ui';
-import AuthLayout from '@/layouts/auth/AuthSimpleLayout.vue';
+import AuthLayout from '@/layouts/auth/AuthShowcaseLayout.vue';
 
 const { title = '', description = '' } = defineProps<{
     title?: string;

@@ -1,19 +1,21 @@
 <script setup lang="ts">
 import { Form, Head } from '@inertiajs/vue3';
-import InputError from '@/components/InputError.vue';
+import { ArrowRight, Mail, Send } from '@lucide/vue';
+import AuthField from '@/components/auth/AuthField.vue';
+import AuthStatus from '@/components/auth/AuthStatus.vue';
+import { authButtonClass, authInputClass } from '@/components/auth/authStyles';
 import TextLink from '@/components/TextLink.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import { login } from '@/routes';
 import { email } from '@/routes/password';
 
 defineOptions({
     layout: {
-        title: 'نسيت كلمة المرور',
+        title: 'استعادة كلمة المرور',
         description:
-            'أدخل بريدك الإلكتروني لاستلام رابط إعادة تعيين كلمة المرور',
+            'أدخل بريدك الإلكتروني وسنرسل لك رابطًا آمنًا لإعادة تعيين كلمة المرور.',
     },
 });
 
@@ -25,17 +27,20 @@ defineProps<{
 <template>
     <Head title="نسيت كلمة المرور" />
 
-    <div
-        v-if="status"
-        class="mb-4 text-center text-sm font-medium text-green-600"
-    >
-        {{ status }}
-    </div>
+    <div>
+        <AuthStatus :message="status" />
 
-    <div class="space-y-6">
-        <Form v-bind="email.form()" v-slot="{ errors, processing }">
-            <div class="grid gap-2">
-                <Label for="email">البريد الإلكتروني</Label>
+        <Form
+            v-bind="email.form()"
+            v-slot="{ errors, processing }"
+            class="flex flex-col gap-6"
+        >
+            <AuthField
+                id="email"
+                label="البريد الإلكتروني"
+                :icon="Mail"
+                :error="errors.email"
+            >
                 <Input
                     id="email"
                     type="email"
@@ -43,27 +48,29 @@ defineProps<{
                     autocomplete="off"
                     v-focus
                     placeholder="email@example.com"
+                    :class="authInputClass"
                 />
-                <InputError :message="errors.email" />
-            </div>
+            </AuthField>
 
-            <div class="my-6 flex items-center justify-start">
-                <Button
-                    class="w-full"
-                    :disabled="processing"
-                    data-test="email-password-reset-link-button"
-                >
-                    <Spinner v-if="processing" />
-                    إرسال رابط إعادة التعيين
-                </Button>
-            </div>
+            <Button
+                :class="authButtonClass"
+                :disabled="processing"
+                data-test="email-password-reset-link-button"
+            >
+                <Spinner v-if="processing" />
+                <Send v-else class="size-4" />
+                إرسال رابط إعادة التعيين
+            </Button>
         </Form>
 
-        <div
-            class="flex justify-center gap-1 text-center text-sm text-muted-foreground"
-        >
-            <span>أو العودة إلى</span>
-            <TextLink :href="login()">تسجيل الدخول</TextLink>
+        <div class="mt-6 border-t pt-5 text-center text-sm">
+            <TextLink
+                :href="login()"
+                class="inline-flex items-center gap-1.5 text-muted-foreground no-underline hover:text-foreground"
+            >
+                <ArrowRight class="size-4" />
+                العودة إلى تسجيل الدخول
+            </TextLink>
         </div>
     </div>
 </template>

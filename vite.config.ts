@@ -16,6 +16,11 @@ export default defineConfig({
                     weights: [400, 500, 600, 700],
                     subsets: ['arabic', 'latin'],
                 }),
+                bunny('Readex Pro', {
+                    weights: [500, 600, 700],
+                    subsets: ['arabic', 'latin'],
+                    preload: false,
+                }),
             ],
         }),
         inertia(),
