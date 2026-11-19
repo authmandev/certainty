@@ -1,0 +1,499 @@
+{
+  "name": "multiple-loans-with-unused-funds",
+  "description": "Two loans whose total exceeds the setup costs, creating unused cash.",
+  "generated_by": "tests/Legacy/harness.mjs from the legacy Cassandra source; not client-verified (BRD A-12)",
+  "form": {
+    "currency_symbol": "ر.س.",
+    "decimals": 2,
+    "vat": 0,
+    "study_years": 5,
+    "market_value": null,
+    "loans": [
+      {
+        "bank": "بنك أ",
+        "amount": 90000,
+        "interest": 5,
+        "years": 3
+      },
+      {
+        "bank": "بنك ب",
+        "amount": 40000,
+        "interest": 0,
+        "years": 2
+      }
+    ],
+    "assets": [
+      {
+        "name": "معدات",
+        "value": 100000,
+        "life_span": 5,
+        "depreciation": 20,
+        "includes_vat": false
+      }
+    ],
+    "employees": [],
+    "fixed_costs": [],
+    "products": [
+      {
+        "name": "خدمة",
+        "vc": 20,
+        "quantity": 400,
+        "price": 120,
+        "capacity": 500,
+        "yearly_increase": 5
+      }
+    ]
+  },
+  "expected": {
+    "OD": {
+      "AverageProfit": 489533.6,
+      "CapitalRecovery": "غير متوفر",
+      "TotalSales": 3182400,
+      "AverageSales": 636480,
+      "MarketShare": 0,
+      "TotalBorrowed": 130000,
+      "TotalLiabilities": 137105.70661911645,
+      "TotalAssets": 130000,
+      "UnassignedLiabilities": 30000,
+      "Self_Financing": 0,
+      "TotalSalaries": 0,
+      "TotalFC": 4364,
+      "TotalFCPaidVAT": 0,
+      "TotalRevenue_wTax": 48000,
+      "TotalRevenue_woTax": 48000,
+      "TotalUnitsSold": 400,
+      "TotalVC_wTax": 8000,
+      "TotalVC_woTax": 8000
+    },
+    "years": [
+      {
+        "Payment_woInterest": 50000,
+        "TotalLiabilities": 80000,
+        "TotalLiabsToEquity": 50000,
+        "RetainedEarnings": 407632,
+        "TotalAssets": 537632,
+        "LongTermAssets": 130000,
+        "CashLongTermAssets": 30000,
+        "AccDepr": 20000,
+        "AccDeprToTA": "15%",
+        "ValueOfAssetsBought": 0,
+        "ValueOfAssetsSold": 0,
+        "VATofDepreciation": 0,
+        "TotalFC": 52368,
+        "TotalFC_woPayments": 0,
+        "FCPaidVAT": 0,
+        "TotalRevenueBeforeTax": 480000,
+        "TotalRevenue_wTax": 576000,
+        "TotalRevenue_woTax": 576000,
+        "TotalUnitsSold": 4800,
+        "TotalVC_wTax": 96000,
+        "TotalVC_woTax": 96000,
+        "VCPaidVAT": 0,
+        "TotalExpensesBeforeTax": 72368,
+        "VATin": 0,
+        "VATout": 0,
+        "VAToutCash": 0,
+        "PendingVAT": 0,
+        "ProfitBeforeTax": 407632,
+        "ProfitAfterTax": 407632,
+        "AverageProfitPerSale": 0,
+        "CashFlowFromOperating": 480000,
+        "CashFlowFromInvesting": 0,
+        "CashFlowFromFinancing": -52368,
+        "NetCashFlow": 427632,
+        "CashFlowBeginning": 30000,
+        "CashFlowEnding": 457632,
+        "FinalTotalExpenses": 168368,
+        "FinalTotalRevenue": 576000,
+        "FinalTotalProfit": 407632,
+        "TotalOwnersEquity": 457632
+      },
+      {
+        "Payment_woInterest": 50000,
+        "TotalLiabilities": 30000,
+        "TotalLiabsToEquity": 100000,
+        "RetainedEarnings": 843264,
+        "TotalAssets": 973264,
+        "LongTermAssets": 110000,
+        "CashLongTermAssets": 30000,
+        "AccDepr": 16000,
+        "AccDeprToTA": "15%",
+        "ValueOfAssetsBought": 0,
+        "ValueOfAssetsSold": 0,
+        "VATofDepreciation": 0,
+        "TotalFC": 52368,
+        "TotalFC_woPayments": 0,
+        "FCPaidVAT": 0,
+        "TotalRevenueBeforeTax": 504000,
+        "TotalRevenue_wTax": 604800,
+        "TotalRevenue_woTax": 604800,
+        "TotalUnitsSold": 5040,
+        "TotalVC_wTax": 100800,
+        "TotalVC_woTax": 100800,
+        "VCPaidVAT": 0,
+        "TotalExpensesBeforeTax": 68368,
+        "VATin": 0,
+        "VATout": 0,
+        "VAToutCash": 0,
+        "PendingVAT": 0,
+        "ProfitBeforeTax": 435632,
+        "ProfitAfterTax": 435632,
+        "AverageProfitPerSale": 0,
+        "CashFlowFromOperating": 504000,
+        "CashFlowFromInvesting": 0,
+        "CashFlowFromFinancing": -52368,
+        "NetCashFlow": 451632,
+        "CashFlowBeginning": 457632,
+        "CashFlowEnding": 909264,
+        "FinalTotalExpenses": 169168,
+        "FinalTotalRevenue": 604800,
+        "FinalTotalProfit": 435632,
+        "TotalOwnersEquity": 943264
+      },
+      {
+        "Payment_woInterest": 30000,
+        "TotalLiabilities": 0,
+        "TotalLiabsToEquity": 130000,
+        "RetainedEarnings": 1327300,
+        "TotalAssets": 1457300,
+        "LongTermAssets": 94000,
+        "CashLongTermAssets": 30000,
+        "AccDepr": 12800,
+        "AccDeprToTA": "14%",
+        "ValueOfAssetsBought": 0,
+        "ValueOfAssetsSold": 0,
+        "VATofDepreciation": 0,
+        "TotalFC": 32364,
+        "TotalFC_woPayments": 0,
+        "FCPaidVAT": 0,
+        "TotalRevenueBeforeTax": 529200,
+        "TotalRevenue_wTax": 635040,
+        "TotalRevenue_woTax": 635040,
+        "TotalUnitsSold": 5292,
+        "TotalVC_wTax": 105840,
+        "TotalVC_woTax": 105840,
+        "VCPaidVAT": 0,
+        "TotalExpensesBeforeTax": 45164,
+        "VATin": 0,
+        "VATout": 0,
+        "VAToutCash": 0,
+        "PendingVAT": 0,
+        "ProfitBeforeTax": 484036,
+        "ProfitAfterTax": 484036,
+        "AverageProfitPerSale": 0,
+        "CashFlowFromOperating": 529200,
+        "CashFlowFromInvesting": 0,
+        "CashFlowFromFinancing": -32364,
+        "NetCashFlow": 496836,
+        "CashFlowBeginning": 909264,
+        "CashFlowEnding": 1406100,
+        "FinalTotalExpenses": 151004,
+        "FinalTotalRevenue": 635040,
+        "FinalTotalProfit": 484036,
+        "TotalOwnersEquity": 1457300
+      },
+      {
+        "Payment_woInterest": 0,
+        "TotalLiabilities": 0,
+        "TotalLiabsToEquity": 130000,
+        "RetainedEarnings": 1872660,
+        "TotalAssets": 2002660,
+        "LongTermAssets": 81200,
+        "CashLongTermAssets": 30000,
+        "AccDepr": 10240,
+        "AccDeprToTA": "13%",
+        "ValueOfAssetsBought": 0,
+        "ValueOfAssetsSold": 0,
+        "VATofDepreciation": 0,
+        "TotalFC": 0,
+        "TotalFC_woPayments": 0,
+        "FCPaidVAT": 0,
+        "TotalRevenueBeforeTax": 555600,
+        "TotalRevenue_wTax": 666720,
+        "TotalRevenue_woTax": 666720,
+        "TotalUnitsSold": 5556,
+        "TotalVC_wTax": 111120,
+        "TotalVC_woTax": 111120,
+        "VCPaidVAT": 0,
+        "TotalExpensesBeforeTax": 10240,
+        "VATin": 0,
+        "VATout": 0,
+        "VAToutCash": 0,
+        "PendingVAT": 0,
+        "ProfitBeforeTax": 545360,
+        "ProfitAfterTax": 545360,
+        "AverageProfitPerSale": 0,
+        "CashFlowFromOperating": 555600,
+        "CashFlowFromInvesting": 0,
+        "CashFlowFromFinancing": 0,
+        "NetCashFlow": 555600,
+        "CashFlowBeginning": 1406100,
+        "CashFlowEnding": 1961700,
+        "FinalTotalExpenses": 121360,
+        "FinalTotalRevenue": 666720,
+        "FinalTotalProfit": 545360,
+        "TotalOwnersEquity": 2002660
+      },
+      {
+        "Payment_woInterest": 0,
+        "TotalLiabilities": 0,
+        "TotalLiabsToEquity": 130000,
+        "RetainedEarnings": 2447668,
+        "TotalAssets": 2577668,
+        "LongTermAssets": 70960,
+        "CashLongTermAssets": 30000,
+        "AccDepr": 8192,
+        "AccDeprToTA": "12%",
+        "ValueOfAssetsBought": 0,
+        "ValueOfAssetsSold": 0,
+        "VATofDepreciation": 0,
+        "TotalFC": 0,
+        "TotalFC_woPayments": 0,
+        "FCPaidVAT": 0,
+        "TotalRevenueBeforeTax": 583200,
+        "TotalRevenue_wTax": 699840,
+        "TotalRevenue_woTax": 699840,
+        "TotalUnitsSold": 5832,
+        "TotalVC_wTax": 116640,
+        "TotalVC_woTax": 116640,
+        "VCPaidVAT": 0,
+        "TotalExpensesBeforeTax": 8192,
+        "VATin": 0,
+        "VATout": 0,
+        "VAToutCash": 0,
+        "PendingVAT": 0,
+        "ProfitBeforeTax": 575008,
+        "ProfitAfterTax": 575008,
+        "AverageProfitPerSale": 0,
+        "CashFlowFromOperating": 583200,
+        "CashFlowFromInvesting": 0,
+        "CashFlowFromFinancing": 0,
+        "NetCashFlow": 583200,
+        "CashFlowBeginning": 1961700,
+        "CashFlowEnding": 2544900,
+        "FinalTotalExpenses": 124832,
+        "FinalTotalRevenue": 699840,
+        "FinalTotalProfit": 575008,
+        "TotalOwnersEquity": 2577668
+      }
+    ],
+    "assets": [
+      {
+        "Name": "معدات",
+        "AccumulatedValue": 32768,
+        "Value": 100000,
+        "IsCash": 0,
+        "LifeToGo": 0,
+        "LifeSpan": 5,
+        "DepreciationRatio": 20,
+        "IncludesVAT": false,
+        "DepreciationValue": 8192,
+        "VATofDepreciation": 0
+      },
+      {
+        "Name": "مبالغ غير مستغلة",
+        "AccumulatedValue": 30000,
+        "Value": 30000,
+        "VATofDepreciation": 0,
+        "DepreciationRatio": 0,
+        "LifeToGo": 0,
+        "LifeSpan": 0,
+        "DepreciationValue": 0,
+        "IncludesVAT": false,
+        "IsCash": 1
+      }
+    ],
+    "liabilities": [
+      {
+        "Bank": "بنك أ",
+        "Amount": 90000,
+        "Interest": 5,
+        "Remaining": 0,
+        "Period": 3,
+        "Payment": 2697.380739419901,
+        "Payable": 97105.70661911645,
+        "Payment_woInterest": 2500
+      },
+      {
+        "Bank": "بنك ب",
+        "Amount": 40000,
+        "Interest": 0,
+        "Remaining": 0,
+        "Period": 2,
+        "Payment": 1666.6666666666667,
+        "Payable": 40000,
+        "Payment_woInterest": 1666.6666666666667
+      }
+    ],
+    "fixedCosts": [
+      {
+        "Name": "قسط مديونية: بنك ب",
+        "Remaining": 0,
+        "Period": 2,
+        "Amount": 1667,
+        "IncludesVAT": false,
+        "IsDebtPayment": 1,
+        "VATAmount": 0
+      },
+      {
+        "Name": "قسط مديونية: بنك أ",
+        "Remaining": 0,
+        "Period": 3,
+        "Amount": 2697,
+        "IncludesVAT": false,
+        "IsDebtPayment": 1,
+        "VATAmount": 0
+      }
+    ],
+    "products": [
+      {
+        "Name": "خدمة",
+        "VC": 20,
+        "Quantity": 486,
+        "Capacity": 500,
+        "YearlyIncrease": 5,
+        "Price": 120,
+        "Revenue_woTax": 58320,
+        "Revenue_wTax": 58320,
+        "TotalVC_wTax": 9720,
+        "TotalVC_woTax": 9720,
+        "VCwoTax": 20,
+        "BreakEvenPrice": 21.404663923182436,
+        "ProfitMargin": 460.6254806459884
+      }
+    ],
+    "chartProfitibility": [
+      [
+        "1",
+        576000,
+        168368,
+        407632
+      ],
+      [
+        "2",
+        604800,
+        169168,
+        435632
+      ],
+      [
+        "3",
+        635040,
+        151004,
+        484036
+      ],
+      [
+        "4",
+        666720,
+        121360,
+        545360
+      ],
+      [
+        "5",
+        699840,
+        124832,
+        575008
+      ]
+    ],
+    "sy": "5",
+    "cvat": 0,
+    "pricing": [
+      {
+        "year": 0,
+        "name": "خدمة",
+        "breakEven": 35.07666666666666,
+        "margin": 242.10776394564294,
+        "quantity": 400
+      },
+      {
+        "year": 1,
+        "name": "خدمة",
+        "breakEven": 33.56507936507937,
+        "margin": 257.51442353163714,
+        "quantity": 420
+      },
+      {
+        "year": 2,
+        "name": "خدمة",
+        "breakEven": 28.53439153439153,
+        "margin": 320.54515112182463,
+        "quantity": 441
+      },
+      {
+        "year": 3,
+        "name": "خدمة",
+        "breakEven": 21.84305255579554,
+        "margin": 449.3737640079102,
+        "quantity": 463
+      },
+      {
+        "year": 4,
+        "name": "خدمة",
+        "breakEven": 21.404663923182436,
+        "margin": 460.6254806459884,
+        "quantity": 486
+      }
+    ],
+    "charts": [
+      {
+        "type": "pie",
+        "div": "chartSetupCosts",
+        "data": [
+          [
+            "معدات",
+            100000
+          ]
+        ]
+      },
+      {
+        "type": "pie",
+        "div": "chartCapitalDistribution",
+        "data": [
+          [
+            "مديونية",
+            130000
+          ],
+          [
+            "تمويل خاص",
+            0
+          ]
+        ]
+      },
+      {
+        "type": "line",
+        "div": "chartProfitibility",
+        "data": [
+          [
+            "1",
+            576000,
+            168368,
+            407632
+          ],
+          [
+            "2",
+            604800,
+            169168,
+            435632
+          ],
+          [
+            "3",
+            635040,
+            151004,
+            484036
+          ],
+          [
+            "4",
+            666720,
+            121360,
+            545360
+          ],
+          [
+            "5",
+            699840,
+            124832,
+            575008
+          ]
+        ]
+      }
+    ]
+  }
+}

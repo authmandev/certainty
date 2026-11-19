@@ -1,0 +1,579 @@
+{
+  "name": "multiple-products-capacity-limits",
+  "description": "Several products, one capped by capacity and one with capacity below quantity.",
+  "generated_by": "tests/Legacy/harness.mjs from the legacy Cassandra source; not client-verified (BRD A-12)",
+  "form": {
+    "currency_symbol": "ر.س.",
+    "decimals": 2,
+    "vat": 15,
+    "study_years": 5,
+    "market_value": null,
+    "loans": [],
+    "assets": [
+      {
+        "name": "آلة قهوة",
+        "value": 60000,
+        "life_span": 5,
+        "depreciation": 20,
+        "includes_vat": false
+      },
+      {
+        "name": "ديكورات",
+        "value": 90000,
+        "life_span": 10,
+        "depreciation": 10,
+        "includes_vat": false
+      }
+    ],
+    "employees": [
+      {
+        "title": "عامل",
+        "total": 4,
+        "salary": 4000
+      }
+    ],
+    "fixed_costs": [],
+    "products": [
+      {
+        "name": "قهوة",
+        "vc": 6,
+        "quantity": 3000,
+        "price": 18,
+        "capacity": 3500,
+        "yearly_increase": 20
+      },
+      {
+        "name": "حلى",
+        "vc": 9,
+        "quantity": 800,
+        "price": 22,
+        "capacity": 500,
+        "yearly_increase": 15
+      },
+      {
+        "name": "عصير",
+        "vc": 4.5,
+        "quantity": 1250.5,
+        "price": 14,
+        "capacity": null,
+        "yearly_increase": 7.5
+      }
+    ]
+  },
+  "expected": {
+    "OD": {
+      "AverageProfit": 609375.87,
+      "CapitalRecovery": "غير متوفر",
+      "TotalSales": 6645569.4,
+      "AverageSales": 1329113.8800000001,
+      "MarketShare": 0,
+      "TotalBorrowed": 0,
+      "TotalLiabilities": 0,
+      "TotalAssets": 150000,
+      "UnassignedLiabilities": 0,
+      "Self_Financing": 150000,
+      "TotalSalaries": 16000,
+      "TotalFC": 0,
+      "TotalFCPaidVAT": 0,
+      "TotalRevenue_wTax": 102473.05,
+      "TotalRevenue_woTax": 89107,
+      "TotalUnitsSold": 5050.5,
+      "TotalVC_wTax": 30827.25,
+      "TotalVC_woTax": 26203.1625
+    },
+    "years": [
+      {
+        "Payment_woInterest": 0,
+        "TotalLiabilities": 0,
+        "TotalLiabsToEquity": 0,
+        "RetainedEarnings": 541846.05,
+        "TotalAssets": 691846.05,
+        "LongTermAssets": 150000,
+        "CashLongTermAssets": 0,
+        "AccDepr": 21000,
+        "AccDeprToTA": "14%",
+        "ValueOfAssetsBought": 0,
+        "ValueOfAssetsSold": 0,
+        "VATofDepreciation": 0,
+        "TotalFC": 0,
+        "TotalFC_woPayments": 0,
+        "FCPaidVAT": 0,
+        "TotalRevenueBeforeTax": 915238.6500000001,
+        "TotalRevenue_wTax": 1229676.6,
+        "TotalRevenue_woTax": 1069284,
+        "TotalUnitsSold": 60606,
+        "TotalVC_wTax": 369927,
+        "TotalVC_woTax": 314437.95,
+        "VCPaidVAT": 55489.04999999999,
+        "TotalExpensesBeforeTax": 268489.05,
+        "VATin": 160392.6000000001,
+        "VATout": 55489.04999999999,
+        "VAToutCash": 0,
+        "PendingVAT": 104903.5500000001,
+        "ProfitBeforeTax": 646749.6000000001,
+        "ProfitAfterTax": 541846.05,
+        "AverageProfitPerSale": 0,
+        "CashFlowFromOperating": 562846.05,
+        "CashFlowFromInvesting": 0,
+        "CashFlowFromFinancing": 0,
+        "NetCashFlow": 562846.05,
+        "CashFlowBeginning": 0,
+        "CashFlowEnding": 562846.05,
+        "FinalTotalExpenses": 687830.55,
+        "FinalTotalRevenue": 1229676.6,
+        "FinalTotalProfit": 541846.05,
+        "TotalOwnersEquity": 691846.05
+      },
+      {
+        "Payment_woInterest": 0,
+        "TotalLiabilities": 0,
+        "TotalLiabsToEquity": 0,
+        "RetainedEarnings": 1164453.15,
+        "TotalAssets": 1314453.15,
+        "LongTermAssets": 129000,
+        "CashLongTermAssets": 0,
+        "AccDepr": 17700,
+        "AccDeprToTA": "14%",
+        "ValueOfAssetsBought": 0,
+        "ValueOfAssetsSold": 0,
+        "VATofDepreciation": 0,
+        "TotalFC": 0,
+        "TotalFC_woPayments": 0,
+        "FCPaidVAT": 0,
+        "TotalRevenueBeforeTax": 1008912.2999999999,
+        "TotalRevenue_wTax": 1353973.2,
+        "TotalRevenue_woTax": 1177368,
+        "TotalUnitsSold": 66612,
+        "TotalVC_wTax": 405954,
+        "TotalVC_woTax": 345060.9,
+        "VCPaidVAT": 60893.09999999998,
+        "TotalExpensesBeforeTax": 270593.1,
+        "VATin": 176605.19999999995,
+        "VATout": 60893.09999999998,
+        "VAToutCash": 0,
+        "PendingVAT": 115712.09999999998,
+        "ProfitBeforeTax": 738319.2,
+        "ProfitAfterTax": 622607.1,
+        "AverageProfitPerSale": 0,
+        "CashFlowFromOperating": 640307.1,
+        "CashFlowFromInvesting": 0,
+        "CashFlowFromFinancing": 0,
+        "NetCashFlow": 640307.1,
+        "CashFlowBeginning": 562846.05,
+        "CashFlowEnding": 1203153.15,
+        "FinalTotalExpenses": 731366.1,
+        "FinalTotalRevenue": 1353973.2,
+        "FinalTotalProfit": 622607.1,
+        "TotalOwnersEquity": 1314453.15
+      },
+      {
+        "Payment_woInterest": 0,
+        "TotalLiabilities": 0,
+        "TotalLiabsToEquity": 0,
+        "RetainedEarnings": 1789790.25,
+        "TotalAssets": 1939790.25,
+        "LongTermAssets": 111300,
+        "CashLongTermAssets": 0,
+        "AccDepr": 14970,
+        "AccDeprToTA": "13%",
+        "ValueOfAssetsBought": 0,
+        "ValueOfAssetsSold": 0,
+        "VATofDepreciation": 0,
+        "TotalFC": 0,
+        "TotalFC_woPayments": 0,
+        "FCPaidVAT": 0,
+        "TotalRevenueBeforeTax": 1008912.2999999999,
+        "TotalRevenue_wTax": 1353973.2,
+        "TotalRevenue_woTax": 1177368,
+        "TotalUnitsSold": 66612,
+        "TotalVC_wTax": 405954,
+        "TotalVC_woTax": 345060.9,
+        "VCPaidVAT": 60893.09999999998,
+        "TotalExpensesBeforeTax": 267863.1,
+        "VATin": 176605.19999999995,
+        "VATout": 60893.09999999998,
+        "VAToutCash": 0,
+        "PendingVAT": 115712.09999999998,
+        "ProfitBeforeTax": 741049.2,
+        "ProfitAfterTax": 625337.1,
+        "AverageProfitPerSale": 0,
+        "CashFlowFromOperating": 640307.1,
+        "CashFlowFromInvesting": 0,
+        "CashFlowFromFinancing": 0,
+        "NetCashFlow": 640307.1,
+        "CashFlowBeginning": 1203153.15,
+        "CashFlowEnding": 1843460.25,
+        "FinalTotalExpenses": 728636.1,
+        "FinalTotalRevenue": 1353973.2,
+        "FinalTotalProfit": 625337.1,
+        "TotalOwnersEquity": 1939790.25
+      },
+      {
+        "Payment_woInterest": 0,
+        "TotalLiabilities": 0,
+        "TotalLiabsToEquity": 0,
+        "RetainedEarnings": 2417392.35,
+        "TotalAssets": 2567392.35,
+        "LongTermAssets": 96330,
+        "CashLongTermAssets": 0,
+        "AccDepr": 12705,
+        "AccDeprToTA": "13%",
+        "ValueOfAssetsBought": 0,
+        "ValueOfAssetsSold": 0,
+        "VATofDepreciation": 0,
+        "TotalFC": 0,
+        "TotalFC_woPayments": 0,
+        "FCPaidVAT": 0,
+        "TotalRevenueBeforeTax": 1008912.2999999999,
+        "TotalRevenue_wTax": 1353973.2,
+        "TotalRevenue_woTax": 1177368,
+        "TotalUnitsSold": 66612,
+        "TotalVC_wTax": 405954,
+        "TotalVC_woTax": 345060.9,
+        "VCPaidVAT": 60893.09999999998,
+        "TotalExpensesBeforeTax": 265598.1,
+        "VATin": 176605.19999999995,
+        "VATout": 60893.09999999998,
+        "VAToutCash": 0,
+        "PendingVAT": 115712.09999999998,
+        "ProfitBeforeTax": 743314.2,
+        "ProfitAfterTax": 627602.1,
+        "AverageProfitPerSale": 0,
+        "CashFlowFromOperating": 640307.1,
+        "CashFlowFromInvesting": 0,
+        "CashFlowFromFinancing": 0,
+        "NetCashFlow": 640307.1,
+        "CashFlowBeginning": 1843460.25,
+        "CashFlowEnding": 2483767.35,
+        "FinalTotalExpenses": 726371.1,
+        "FinalTotalRevenue": 1353973.2,
+        "FinalTotalProfit": 627602.1,
+        "TotalOwnersEquity": 2567392.35
+      },
+      {
+        "Payment_woInterest": 0,
+        "TotalLiabilities": 0,
+        "TotalLiabsToEquity": 0,
+        "RetainedEarnings": 3046879.35,
+        "TotalAssets": 3196879.35,
+        "LongTermAssets": 83625,
+        "CashLongTermAssets": 0,
+        "AccDepr": 10820.099999999999,
+        "AccDeprToTA": "13%",
+        "ValueOfAssetsBought": 0,
+        "ValueOfAssetsSold": 0,
+        "VATofDepreciation": 0,
+        "TotalFC": 0,
+        "TotalFC_woPayments": 0,
+        "FCPaidVAT": 0,
+        "TotalRevenueBeforeTax": 1008912.2999999999,
+        "TotalRevenue_wTax": 1353973.2,
+        "TotalRevenue_woTax": 1177368,
+        "TotalUnitsSold": 66612,
+        "TotalVC_wTax": 405954,
+        "TotalVC_woTax": 345060.9,
+        "VCPaidVAT": 60893.09999999998,
+        "TotalExpensesBeforeTax": 263713.19999999995,
+        "VATin": 176605.19999999995,
+        "VATout": 60893.09999999998,
+        "VAToutCash": 0,
+        "PendingVAT": 115712.09999999998,
+        "ProfitBeforeTax": 745199.1,
+        "ProfitAfterTax": 629487,
+        "AverageProfitPerSale": 0,
+        "CashFlowFromOperating": 640307.1,
+        "CashFlowFromInvesting": 0,
+        "CashFlowFromFinancing": 0,
+        "NetCashFlow": 640307.1,
+        "CashFlowBeginning": 2483767.35,
+        "CashFlowEnding": 3124074.45,
+        "FinalTotalExpenses": 724486.2,
+        "FinalTotalRevenue": 1353973.2,
+        "FinalTotalProfit": 629487,
+        "TotalOwnersEquity": 3196879.35
+      }
+    ],
+    "assets": [
+      {
+        "Name": "آلة قهوة",
+        "AccumulatedValue": 19660.8,
+        "Value": 60000,
+        "IsCash": 0,
+        "LifeToGo": 0,
+        "LifeSpan": 5,
+        "DepreciationRatio": 20,
+        "IncludesVAT": false,
+        "DepreciationValue": 4915.2,
+        "VATofDepreciation": 0
+      },
+      {
+        "Name": "ديكورات",
+        "AccumulatedValue": 53144.1,
+        "Value": 90000,
+        "IsCash": 0,
+        "LifeToGo": 5,
+        "LifeSpan": 10,
+        "DepreciationRatio": 10,
+        "IncludesVAT": false,
+        "DepreciationValue": 5904.9,
+        "VATofDepreciation": 0
+      }
+    ],
+    "liabilities": [],
+    "fixedCosts": [],
+    "products": [
+      {
+        "Name": "قهوة",
+        "VC": 6,
+        "Quantity": 3500,
+        "Capacity": 3500,
+        "YearlyIncrease": 20,
+        "Price": 18,
+        "Revenue_woTax": 63000,
+        "Revenue_wTax": 72450,
+        "TotalVC_wTax": 21000,
+        "TotalVC_woTax": 17850,
+        "VCwoTax": 5.1,
+        "BreakEvenPrice": 5.1,
+        "ProfitMargin": 252.94117647058826
+      },
+      {
+        "Name": "حلى",
+        "VC": 9,
+        "Quantity": 800,
+        "Capacity": 800,
+        "YearlyIncrease": 15,
+        "Price": 22,
+        "Revenue_woTax": 17600,
+        "Revenue_wTax": 20240,
+        "TotalVC_wTax": 7200,
+        "TotalVC_woTax": 6120,
+        "VCwoTax": 7.65,
+        "BreakEvenPrice": 7.65,
+        "ProfitMargin": 187.5816993464052
+      },
+      {
+        "Name": "عصير",
+        "VC": 4.5,
+        "Quantity": 1251,
+        "Capacity": 1251,
+        "YearlyIncrease": 7.5,
+        "Price": 14,
+        "Revenue_woTax": 17514,
+        "Revenue_wTax": 20141.1,
+        "TotalVC_wTax": 5629.5,
+        "TotalVC_woTax": 4785.075,
+        "VCwoTax": 3.825,
+        "BreakEvenPrice": 3.825,
+        "ProfitMargin": 266.01307189542484
+      }
+    ],
+    "chartProfitibility": [
+      [
+        "1",
+        1229676.6,
+        687830.55,
+        541846.05
+      ],
+      [
+        "2",
+        1353973.2,
+        731366.1,
+        622607.1
+      ],
+      [
+        "3",
+        1353973.2,
+        728636.1,
+        625337.1
+      ],
+      [
+        "4",
+        1353973.2,
+        726371.1,
+        627602.1
+      ],
+      [
+        "5",
+        1353973.2,
+        724486.2,
+        629487
+      ]
+    ],
+    "sy": "5",
+    "cvat": 0.15,
+    "pricing": [
+      {
+        "year": 0,
+        "name": "قهوة",
+        "breakEven": 5.1,
+        "margin": 252.94117647058826,
+        "quantity": 3000
+      },
+      {
+        "year": 0,
+        "name": "حلى",
+        "breakEven": 7.65,
+        "margin": 187.5816993464052,
+        "quantity": 800
+      },
+      {
+        "year": 0,
+        "name": "عصير",
+        "breakEven": 3.825,
+        "margin": 266.01307189542484,
+        "quantity": 1250.5
+      },
+      {
+        "year": 1,
+        "name": "قهوة",
+        "breakEven": 5.1,
+        "margin": 252.94117647058826,
+        "quantity": 3500
+      },
+      {
+        "year": 1,
+        "name": "حلى",
+        "breakEven": 7.65,
+        "margin": 187.5816993464052,
+        "quantity": 800
+      },
+      {
+        "year": 1,
+        "name": "عصير",
+        "breakEven": 3.825,
+        "margin": 266.01307189542484,
+        "quantity": 1251
+      },
+      {
+        "year": 2,
+        "name": "قهوة",
+        "breakEven": 5.1,
+        "margin": 252.94117647058826,
+        "quantity": 3500
+      },
+      {
+        "year": 2,
+        "name": "حلى",
+        "breakEven": 7.65,
+        "margin": 187.5816993464052,
+        "quantity": 800
+      },
+      {
+        "year": 2,
+        "name": "عصير",
+        "breakEven": 3.825,
+        "margin": 266.01307189542484,
+        "quantity": 1251
+      },
+      {
+        "year": 3,
+        "name": "قهوة",
+        "breakEven": 5.1,
+        "margin": 252.94117647058826,
+        "quantity": 3500
+      },
+      {
+        "year": 3,
+        "name": "حلى",
+        "breakEven": 7.65,
+        "margin": 187.5816993464052,
+        "quantity": 800
+      },
+      {
+        "year": 3,
+        "name": "عصير",
+        "breakEven": 3.825,
+        "margin": 266.01307189542484,
+        "quantity": 1251
+      },
+      {
+        "year": 4,
+        "name": "قهوة",
+        "breakEven": 5.1,
+        "margin": 252.94117647058826,
+        "quantity": 3500
+      },
+      {
+        "year": 4,
+        "name": "حلى",
+        "breakEven": 7.65,
+        "margin": 187.5816993464052,
+        "quantity": 800
+      },
+      {
+        "year": 4,
+        "name": "عصير",
+        "breakEven": 3.825,
+        "margin": 266.01307189542484,
+        "quantity": 1251
+      }
+    ],
+    "charts": [
+      {
+        "type": "pie",
+        "div": "chartSetupCosts",
+        "data": [
+          [
+            "آلة قهوة",
+            60000
+          ],
+          [
+            "ديكورات",
+            90000
+          ]
+        ]
+      },
+      {
+        "type": "pie",
+        "div": "chartCapitalDistribution",
+        "data": [
+          [
+            "مديونية",
+            0
+          ],
+          [
+            "تمويل خاص",
+            150000
+          ]
+        ]
+      },
+      {
+        "type": "line",
+        "div": "chartProfitibility",
+        "data": [
+          [
+            "1",
+            1229676.6,
+            687830.55,
+            541846.05
+          ],
+          [
+            "2",
+            1353973.2,
+            731366.1,
+            622607.1
+          ],
+          [
+            "3",
+            1353973.2,
+            728636.1,
+            625337.1
+          ],
+          [
+            "4",
+            1353973.2,
+            726371.1,
+            627602.1
+          ],
+          [
+            "5",
+            1353973.2,
+            724486.2,
+            629487
+          ]
+        ]
+      }
+    ]
+  }
+}
