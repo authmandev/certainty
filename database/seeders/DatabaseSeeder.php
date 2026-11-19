@@ -15,6 +15,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call(ReferenceOptionSeeder::class);
+
         User::factory()->admin()->create([
             'name' => 'مدير النظام',
             'email' => 'admin@example.com',

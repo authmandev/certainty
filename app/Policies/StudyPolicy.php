@@ -27,4 +27,18 @@ class StudyPolicy
             ? Response::allow()
             : Response::denyAsNotFound();
     }
+
+    /**
+     * Determine whether the customer can edit the study's draft input.
+     */
+    public function update(User $user, Study $study): Response
+    {
+        if ($study->user_id !== $user->id) {
+            return Response::denyAsNotFound();
+        }
+
+        return $study->isEditable()
+            ? Response::allow()
+            : Response::deny(__('This study can no longer be edited.'));
+    }
 }

@@ -5,12 +5,13 @@ namespace App\Actions\Studies;
 use App\Enums\PaymentStatus;
 use App\Models\Study;
 use App\Models\User;
+use App\Services\Studies\StudyInputSchema;
 use Illuminate\Support\Facades\DB;
 
 class CreateStudyAction
 {
     /**
-     * Create a draft study with its pending bank-transfer payment.
+     * Create a draft study with its pending bank-transfer payment and empty input.
      *
      * @param  array{title: string, project_name: string}  $attributes
      */
@@ -32,6 +33,11 @@ class CreateStudyAction
             $payment->save();
 
             $payment->forceFill(['reference_number' => $this->formatReference('PAY', $payment->id)])->save();
+
+            $study->input()->create([
+                'input_data' => StudyInputSchema::defaults(),
+                'schema_version' => StudyInputSchema::VERSION,
+            ]);
 
             return $study->setRelation('payment', $payment);
         });

@@ -12,7 +12,7 @@ Route::inertia('terms', 'public/Terms')->name('terms');
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', DashboardController::class)->name('dashboard');
 
-    Route::resource('studies', StudyController::class)->only(['create', 'store', 'show']);
+    Route::resource('studies', StudyController::class)->only(['create', 'store', 'show', 'edit', 'update']);
 });
 
 require __DIR__.'/settings.php';

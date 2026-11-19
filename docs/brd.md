@@ -428,6 +428,14 @@ Progress must be calculated deterministically using documented rules.
 
 The progress indicator must not be based solely on the number of visited pages.
 
+**Implemented rules (Milestone 3):** progress is computed from the saved input only. Each of the five sections scores the share of its required items that are filled in, and the overall percentage is the rounded average of the five section scores (20% each).
+- Owners, setup assets and products need at least one row.
+- Every row the customer adds, in any group, must be complete.
+- An empty optional group (loans, fixed costs, employees, competitors) adds no item.
+- A category of "أخرى" requires a description.
+
+The rules live in `CalculateStudyProgressService`. The percentage is stored on the study on every draft save.
+
 ## FR-012 — Input Validation
 
 Validation shall include:

@@ -38,6 +38,8 @@ class StudyResource extends JsonResource
                     'label' => $this->payment->status->label(),
                 ],
             ] : null),
+            'completion_percentage' => $this->completion_percentage,
+            'is_editable' => $this->isEditable(),
             'days_remaining' => $this->daysRemaining(),
             'expires_at' => $this->expires_at->toIso8601String(),
             'created_at' => $this->created_at?->toIso8601String(),

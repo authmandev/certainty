@@ -4,6 +4,7 @@ use App\Enums\PaymentStatus;
 use App\Enums\StudyStatus;
 use App\Models\Study;
 use App\Models\User;
+use App\Services\Studies\StudyInputSchema;
 use Inertia\Testing\AssertableInertia as Assert;
 
 test('guests are redirected to the login page', function () {
@@ -61,7 +62,7 @@ test('customers can create a draft study with a pending payment', function () {
     ]);
 
     $study = Study::sole();
-    $response->assertRedirect(route('studies.show', $study));
+    $response->assertRedirect(route('studies.edit', $study));
 
     expect($study)
         ->user_id->toBe($customer->id)
@@ -76,7 +77,8 @@ test('customers can create a draft study with a pending payment', function () {
         ->amount->toBe('1200.00')
         ->currency->toBe('SAR')
         ->status->toBe(PaymentStatus::Pending)
-        ->reference_number->toBe('PAY-'.str_pad((string) $study->payment->id, 6, '0', STR_PAD_LEFT));
+        ->reference_number->toBe('PAY-'.str_pad((string) $study->payment->id, 6, '0', STR_PAD_LEFT))
+        ->and($study->input->input_data)->toBe(StudyInputSchema::defaults());
 });
 
 test('the draft duration and price come from configuration', function () {

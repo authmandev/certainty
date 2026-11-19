@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property string $title
  * @property string $project_name
  * @property StudyStatus $status
+ * @property int $completion_percentage
  * @property CarbonImmutable $expires_at
  * @property CarbonImmutable|null $finalized_at
  * @property int $current_version
@@ -26,6 +27,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property CarbonImmutable|null $updated_at
  * @property-read User $user
  * @property-read StudyPayment|null $payment
+ * @property-read StudyInput|null $input
  */
 #[Fillable(['title', 'project_name'])]
 class Study extends Model
@@ -61,6 +63,22 @@ class Study extends Model
     public function payment(): HasOne
     {
         return $this->hasOne(StudyPayment::class);
+    }
+
+    /**
+     * @return HasOne<StudyInput, $this>
+     */
+    public function input(): HasOne
+    {
+        return $this->hasOne(StudyInput::class);
+    }
+
+    /**
+     * Determine whether the customer may still edit the study: it is a draft and its deadline has not passed.
+     */
+    public function isEditable(): bool
+    {
+        return $this->currentStatus() === StudyStatus::Draft;
     }
 
     /**
