@@ -5,14 +5,17 @@ namespace App\Http\Controllers;
 use App\Actions\Studies\CreateStudyAction;
 use App\Actions\Studies\UpdateStudyDraftAction;
 use App\Enums\ReferenceGroup;
+use App\Enums\StudyStatus;
 use App\Http\Requests\StoreStudyRequest;
 use App\Http\Requests\UpdateStudyDraftRequest;
 use App\Http\Resources\StudyPaymentResource;
+use App\Http\Resources\StudyReportResource;
 use App\Http\Resources\StudyResource;
 use App\Models\ReferenceOption;
 use App\Models\Study;
 use App\Services\Calculation\FeasibilityCalculationService;
 use App\Services\Studies\CalculateStudyProgressService;
+use App\Services\Studies\FinalizationReadiness;
 use App\Services\Studies\StudyInputSchema;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Config;
@@ -54,11 +57,11 @@ class StudyController extends Controller
     /**
      * Show a study owned by the current customer.
      */
-    public function show(Study $study): Response
+    public function show(Study $study, FinalizationReadiness $readiness): Response
     {
         Gate::authorize('view', $study);
 
-        $study->load('payment.receipts');
+        $study->load(['payment.receipts', 'reports']);
 
         return Inertia::render('studies/Show', [
             'study' => new StudyResource($study),
@@ -68,6 +71,10 @@ class StudyController extends Controller
                 'extensions' => Config::array('certainty.receipts.extensions'),
                 'max_kilobytes' => Config::integer('certainty.receipts.max_kilobytes'),
             ],
+            'finalization' => $study->status === StudyStatus::Draft
+                ? fn (): array => ['checks' => $checks = $readiness->checks($study), 'ready' => $readiness->passes($checks)]
+                : null,
+            'reports' => StudyReportResource::collection($study->reports),
         ]);
     }
 

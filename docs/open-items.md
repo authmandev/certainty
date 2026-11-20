@@ -7,7 +7,7 @@ Every unanswered question, unconfirmed assumption, pending input or deferred tas
 - **Blocks** names the milestone that needs the answer. "—" means it only needs confirming.
 - When an item is resolved, update the BRD section it came from.
 
-_Last updated: 20 November 2026 (Milestone 6)._
+_Last updated: 20 November 2026 (Milestone 7)._
 
 ---
 
@@ -35,13 +35,14 @@ _Last updated: 20 November 2026 (Milestone 6)._
 | OI-27 | Can a customer replace a receipt that is still under review? | Yes. The new upload replaces it, and the old one stays in the history as "replaced". Once a payment is approved, uploads are locked. | — | Milestone 6, BRD FR-019 | Open |
 | OI-28 | Should anyone be notified by email: admins when a receipt arrives, and customers when it is approved or rejected? | No emails yet; the BRD doesn't require them. Admins see the pending count on their dashboard, and customers see the status and any rejection reason on the study page. | — | Milestone 6 | Open |
 | OI-29 | Rejection reasons must be 5 to 1000 characters, and approval cannot be undone. Confirm. | Implemented. Undoing a decision would need a future admin correction tool (M8). | M8 | Milestone 6, BRD FR-021 | Open |
+| OI-30 | Review a sample final report against the old Cassandra reports. | The layout is rebuilt from the legacy `OUTPUT_PART*` markup and labels (M-03). Statements are grouped as up to five years per table, and project, market and SWOT text is included. A sample can be generated from any finalized study. | Launch | Milestone 7, BRD FR-032 | Open |
 
 ## 2. Content and assets (Client)
 
 | ID | Item needed | Current placeholder | Blocks | Source | Status |
 |---|---|---|---|---|---|
 | OI-15 | Legal review of the Privacy Policy and Terms text. | Draft text written from how the platform works (`pages/public/Privacy.vue`, `Terms.vue`). | Launch | Milestone 2 | Open |
-| OI-16 | Brand assets: logo, brand colours, company or institution name, and company stamp for reports. | A simple chart-in-square mark, provisional teal and gold colours. `favicon.ico` and `apple-touch-icon.png` are still Laravel's. | M7 report, launch | BRD FR-033, Milestone 2 | Open |
+| OI-16 | Brand assets: logo, brand colours, company or institution name, and company stamp for reports. | A simple chart-in-square mark, provisional teal and gold colours. `favicon.ico` and `apple-touch-icon.png` are still Laravel's. The report cover shows the same mark and `CERTAINTY_COMPANY_NAME` (default "Certainty"). It has no stamp yet. | Launch | BRD FR-033, Milestone 2 | Open |
 | OI-17 | Public contact email and phone. | Empty, so the contact card shows text only. Set `CERTAINTY_CONTACT_EMAIL` and `CERTAINTY_CONTACT_PHONE`. | Launch | Milestone 2 | Open |
 | OI-18 | Bank account details for transfer instructions: bank, account name, IBAN. | The transfer instructions are built. Set `CERTAINTY_BANK_NAME`, `CERTAINTY_BANK_ACCOUNT_NAME` and `CERTAINTY_BANK_IBAN`. Until then the study page asks customers to contact support for the details. | Launch | BRD FR-018, A-10 | Open |
 
@@ -51,9 +52,10 @@ _Last updated: 20 November 2026 (Milestone 6)._
 |---|---|---|---|---|
 | OI-19 | Visual QA of the landing page, auth pages, study editor and live results panel (sticky column at 2xl, sheet below that) at desktop, tablet and mobile, in light and dark mode. | Not seen rendered: headless screenshots were blocked by the permission system. Manual review needed, or allow the Playwright screenshot command. | Launch | Open |
 | OI-20 | A way to create admin users in production, such as an `artisan` command. | Only the seeder creates an admin today, and it is for development. | M8 / launch | Open |
-| OI-21 | Production setup: run `ReferenceOptionSeeder` on every deploy, run the scheduler (`studies:expire-drafts` hourly), and define a backup strategy for the database and private files. | Backups are BRD NFR-008. | M9 | Open |
+| OI-21 | Production setup: run `ReferenceOptionSeeder` on every deploy, run the scheduler (`studies:expire-drafts` hourly) and a queue worker (report PDFs), and define a backup strategy for the database and private files (receipts, reports). | Backups are BRD NFR-008. | M9 | Open |
 | OI-22 | Delete the unused starter-kit auth layouts (`AuthSimpleLayout`, `AuthCardLayout`, `AuthSplitLayout`). | Replaced by `AuthShowcaseLayout`. | — | Open |
-| OI-23 | Git housekeeping: delete the `milestone-1-foundation` branch, merge Milestone 3 and Milestone 4, then merge Milestone 5 and Milestone 6 (`milestone-6-bank-transfers`, stacked on 5). | After each squash-merge, rebase the next branch with `git rebase --onto origin/main <old-base>`. | — | Open |
+| OI-23 | Git housekeeping: delete the `milestone-1-foundation` branch, merge Milestone 3 and Milestone 4, then merge Milestones 5 to 7 (`milestone-7-reports`, stacked on 6). | After each squash-merge, rebase the next branch with `git rebase --onto origin/main <old-base>`. | — | Open |
+| OI-31 | Install Chromium on every server that renders reports, and run a queue worker. The PDF job needs a worker; downloads fall back to rendering on demand. | Set `LARAVEL_PDF_CHROME_BINARY` if Chromium isn't on `PATH`, and `LARAVEL_PDF_CHROME_NO_SANDBOX=true` in containers. Ubuntu needs `chromium` or `chrome-headless-shell` plus `libnss3`, `libnspr4` and `libasound2`. Alternatively, switch `LARAVEL_PDF_DRIVER` to `gotenberg` or `cloudflare` with no code change. This machine has no Chromium installed; the sample was rendered with Chrome for Testing in a temporary folder. | Launch | Open |
 
 ---
 

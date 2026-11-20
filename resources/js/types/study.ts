@@ -239,6 +239,7 @@ export type StudyPaymentDetail = StudyPayment & {
         title: string;
         status: LabelledStatus<StudyStatus>;
         completion_percentage: number;
+        report_url: string | null;
     };
     latest_receipt?: PaymentReceipt | null;
     receipts?: PaymentReceipt[];
@@ -271,4 +272,26 @@ export type Paginated<T> = {
         total: number;
         per_page: number;
     };
+};
+
+export type FinalizationCheck = {
+    key: 'not_expired' | 'complete' | 'calculable' | 'payment_approved';
+    label: string;
+    passed: boolean;
+    detail: string | null;
+};
+
+export type Finalization = {
+    checks: FinalizationCheck[];
+    ready: boolean;
+};
+
+export type StudyReportVersion = {
+    id: number;
+    version: number;
+    is_generated: boolean;
+    finalized_at: string;
+    generated_at: string | null;
+    view_url: string;
+    download_url: string;
 };
