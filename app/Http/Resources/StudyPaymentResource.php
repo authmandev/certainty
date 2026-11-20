@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources;
 
+use App\Enums\PaymentStatus;
+use App\Enums\StudyStatus;
 use App\Models\StudyPayment;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -43,6 +45,9 @@ class StudyPaymentResource extends JsonResource
                     'label' => $this->study->currentStatus()->label(),
                 ],
                 'completion_percentage' => $this->study->completion_percentage,
+                'report_url' => $this->study->status === StudyStatus::Finalized && $this->status === PaymentStatus::Approved
+                    ? route('studies.report', $this->study)
+                    : null,
             ]),
             'latest_receipt' => $this->whenLoaded('latestReceipt', fn (): ?PaymentReceiptResource => $this->latestReceipt ? new PaymentReceiptResource($this->latestReceipt) : null),
             'receipts' => PaymentReceiptResource::collection($this->whenLoaded('receipts')),

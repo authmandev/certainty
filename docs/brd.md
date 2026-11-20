@@ -928,6 +928,17 @@ The system should store:
 - Unapproved payments cannot access final reports.
 - Changes made after an authorized reopening produce a new report version rather than silently overwriting the existing history.
 
+**Implemented (Milestone 7):**
+- **Finalizing:** `POST /studies/{id}/finalize` requires `confirmed` to be accepted. `FinalizeStudyAction` locks the study row and re-checks the FR-016 conditions (`FinalizationReadiness`: not expired, every section complete, figures calculable, payment approved). It then writes `study_reports` version `current_version + 1` with:
+  - the normalized input, plus the title, project name and frozen dropdown labels
+  - the full `FeasibilityCalculationService` result and the calculation version
+
+  Finally it marks the study `finalized`. Repeating the request returns the existing report.
+- **PDF generation:** `spatie/laravel-pdf` v2 with the `chrome` driver (chrome-php/chrome; a Chromium binary on the server, no Node). The `GenerateStudyReportPdf` job renders `resources/views/reports/study.blade.php` from the snapshots only, after the transaction commits. The download route renders it on demand if the job hasn't finished, and a cache lock prevents rendering it twice.
+- **Fonts and charts:** IBM Plex Sans Arabic (OFL, in `resources/fonts`) is embedded, so rendering never depends on the server's fonts. Charts are static SVG drawn in PHP.
+- **Report layout:** follows the legacy `OUTPUT_PART*` sections and labels. The financial statements are shown as tables of up to five years each instead of one table per year.
+- **Access:** `GET /studies/{id}/report[?version=&download=1]` is open to the owner or an administrator, only when the study is finalized and its payment approved. Everyone else gets 404 or 403. Files are stored privately under random names.
+
 ---
 
 # 12. Administrative Dashboard

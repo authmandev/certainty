@@ -6,9 +6,11 @@ use App\Enums\StudyStatus;
 use Carbon\CarbonImmutable;
 use Database\Factories\StudyFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
@@ -28,6 +30,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property-read User $user
  * @property-read StudyPayment|null $payment
  * @property-read StudyInput|null $input
+ * @property-read Collection<int, StudyReport> $reports
+ * @property-read StudyReport|null $latestReport
  */
 #[Fillable(['title', 'project_name'])]
 class Study extends Model
@@ -71,6 +75,24 @@ class Study extends Model
     public function input(): HasOne
     {
         return $this->hasOne(StudyInput::class);
+    }
+
+    /**
+     * Report versions, newest first.
+     *
+     * @return HasMany<StudyReport, $this>
+     */
+    public function reports(): HasMany
+    {
+        return $this->hasMany(StudyReport::class)->latest('version');
+    }
+
+    /**
+     * @return HasOne<StudyReport, $this>
+     */
+    public function latestReport(): HasOne
+    {
+        return $this->hasOne(StudyReport::class)->ofMany('version', 'max');
     }
 
     /**

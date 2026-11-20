@@ -104,6 +104,22 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Reports
+    |--------------------------------------------------------------------------
+    |
+    | Final report PDFs are stored on a private disk and only served through
+    | the report download route (BRD FR-035). The renderer itself is set in
+    | config/laravel-pdf.php.
+    |
+    */
+
+    'reports' => [
+        'disk' => env('CERTAINTY_REPORTS_DISK', 'local'),
+        'company_name' => env('CERTAINTY_COMPANY_NAME', 'Certainty'),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Public Contact Details
     |--------------------------------------------------------------------------
     */

@@ -206,6 +206,25 @@ function submitReject(): void {
                             </dd>
                         </div>
                         <div
+                            v-if="payment.study?.report_url"
+                            class="flex justify-between gap-3 py-2"
+                        >
+                            <dt class="text-muted-foreground">
+                                التقرير النهائي
+                            </dt>
+                            <dd>
+                                <a
+                                    :href="payment.study.report_url"
+                                    target="_blank"
+                                    rel="noopener"
+                                    class="flex items-center gap-1 text-primary hover:underline"
+                                >
+                                    عرض PDF
+                                    <ExternalLink class="size-3.5" />
+                                </a>
+                            </dd>
+                        </div>
+                        <div
                             v-if="payment.study"
                             class="flex justify-between gap-3 py-2"
                         >
