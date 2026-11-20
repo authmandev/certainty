@@ -7,7 +7,7 @@ Every unanswered question, unconfirmed assumption, pending input or deferred tas
 - **Blocks** names the milestone that needs the answer. "—" means it only needs confirming.
 - When an item is resolved, update the BRD section it came from.
 
-_Last updated: 19 November 2026 (Milestone 4)._
+_Last updated: 20 November 2026 (Milestone 5)._
 
 ---
 
@@ -29,6 +29,8 @@ _Last updated: 19 November 2026 (Milestone 4)._
 | OI-12 | Confirm the progress rules: each of the 5 sections counts 20%, and empty optional groups don't count. | Implemented and documented in BRD FR-011. | — | Milestone 3 | Open |
 | OI-13 | Confirm the preview defaults for unfinished drafts: no study length chosen → 2 years; no VAT chosen → 0%. Both show a warning. | Implemented in `LegacyFormMapper`. | M5 | Milestone 4, §26.3 | Open |
 | OI-14 | Confirm the remaining BRD assumptions: A-04 (price fixed at creation, already implemented), A-06 (reopening needs no new payment), A-07 (report versions are immutable), A-09 (report keeps the legacy structure), A-11 (no mandatory email verification). | Built or planned on these assumptions. | M7 / M8 | BRD §24 | Open |
+| OI-24 | Approve the figures in the live results panel. FR-029 only suggests a list. | Total capital, loans with interest, self-financing, monthly revenue (year 1, excluding VAT), monthly salaries, monthly fixed costs including loan instalments, total sales, market share, average annual net profit, capital recovery, a yearly revenue/expenses/profit chart and table, the capital split and the setup costs. | — | Milestone 5, BRD FR-029/FR-030 | Open |
+| OI-25 | The live preview refreshes when the draft is saved (0.7 s after typing stops, plus the request time). That is about 1 second, the FR-029 target. Confirm this feels live enough. Narrative fields also trigger a save; that doesn't change the figures. | Implemented. The alternative is a separate preview request for unsaved input. | — | Milestone 5, BRD FR-029 | Open |
 
 ## 2. Content and assets (Client)
 
@@ -43,11 +45,11 @@ _Last updated: 19 November 2026 (Milestone 4)._
 
 | ID | Task | Notes | Blocks | Status |
 |---|---|---|---|---|
-| OI-19 | Visual QA of the landing page, auth pages and study editor at desktop, tablet and mobile, in light and dark mode. | Not seen rendered: headless screenshots were blocked by the permission system. Manual review needed, or allow the Playwright screenshot command. | Launch | Open |
+| OI-19 | Visual QA of the landing page, auth pages, study editor and live results panel (sticky column at 2xl, sheet below that) at desktop, tablet and mobile, in light and dark mode. | Not seen rendered: headless screenshots were blocked by the permission system. Manual review needed, or allow the Playwright screenshot command. | Launch | Open |
 | OI-20 | A way to create admin users in production, such as an `artisan` command. | Only the seeder creates an admin today, and it is for development. | M8 / launch | Open |
 | OI-21 | Production setup: run `ReferenceOptionSeeder` on every deploy, run the scheduler (`studies:expire-drafts` hourly), and define a backup strategy for the database and private files. | Backups are BRD NFR-008. | M9 | Open |
 | OI-22 | Delete the unused starter-kit auth layouts (`AuthSimpleLayout`, `AuthCardLayout`, `AuthSplitLayout`). | Replaced by `AuthShowcaseLayout`. | — | Open |
-| OI-23 | Git housekeeping: delete the `milestone-1-foundation` branch, merge Milestone 3, and commit, push and merge Milestone 4. | After each squash-merge, rebase the next branch with `git rebase --onto origin/main <old-base>`. | — | Open |
+| OI-23 | Git housekeeping: delete the `milestone-1-foundation` branch, merge Milestone 3 and Milestone 4, then push and merge Milestone 5 (`milestone-5-live-results`, stacked on Milestone 4). | After each squash-merge, rebase the next branch with `git rebase --onto origin/main <old-base>`. | — | Open |
 
 ---
 

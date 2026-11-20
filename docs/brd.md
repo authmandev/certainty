@@ -803,6 +803,8 @@ Preview values shall use backend calculation results.
 
 The frontend may debounce requests to avoid excessive server calls. The debounce must be short enough that the update still feels live (target: results visible within about one second of the last keystroke).
 
+**Implemented (Milestone 5):** the preview is part of the draft autosave. The editor saves 0.7 s after the last keystroke, and the save response reloads `progress` and `preview` together, so the figures always come from `FeasibilityCalculationService` and match the stored draft. While a save is blocked by an invalid value, the panel keeps the last results and marks them as waiting for the save. The panel shows total capital, loans with interest, self-financing, expected monthly revenue, monthly salaries, monthly fixed costs (including loan instalments), total sales, market share, average annual net profit and capital recovery. It also shows the revenue, expenses and profit chart and yearly table, the capital split, the setup costs and the FR-031 warnings, each with a link to its step. A draft that cannot be calculated (for example, figures that overflow) shows a notice instead of results and never blocks editing.
+
 ## FR-030 — Charts
 
 Version 1 shall include basic visualizations using the existing financial projection data.

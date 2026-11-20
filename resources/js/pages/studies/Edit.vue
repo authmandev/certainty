@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import { Head, Link, useForm } from '@inertiajs/vue3';
-import { ArrowLeft, ArrowRight, CalendarClock, Eye } from '@lucide/vue';
+import {
+    ArrowLeft,
+    ArrowRight,
+    CalendarClock,
+    ChartNoAxesCombined,
+    Eye,
+} from '@lucide/vue';
 import { computed, ref, useTemplateRef } from 'vue';
 import StudyController from '@/actions/App/Http/Controllers/StudyController';
 import PaymentStatusBadge from '@/components/PaymentStatusBadge.vue';
@@ -8,11 +14,18 @@ import StudyStatusBadge from '@/components/StudyStatusBadge.vue';
 import BasicInfoStep from '@/components/study/BasicInfoStep.vue';
 import CostsStep from '@/components/study/CostsStep.vue';
 import MarketStep from '@/components/study/MarketStep.vue';
+import ResultsPanel from '@/components/study/results/ResultsPanel.vue';
 import SalesStep from '@/components/study/SalesStep.vue';
 import SaveStatusIndicator from '@/components/study/SaveStatusIndicator.vue';
 import StudyStepper from '@/components/study/StudyStepper.vue';
 import SwotStep from '@/components/study/SwotStep.vue';
 import { Button } from '@/components/ui/button';
+import {
+    Sheet,
+    SheetContent,
+    SheetDescription,
+    SheetTitle,
+} from '@/components/ui/sheet';
 import { useAutosave } from '@/composables/useAutosave';
 import { newRowKey, provideStudyForm } from '@/composables/useStudyForm';
 import { formatDate } from '@/lib/format';
@@ -24,6 +37,7 @@ import type {
     StudyFormData,
     StudyFormOptions,
     StudyInput,
+    StudyPreview,
     StudyProgress,
 } from '@/types';
 
@@ -31,6 +45,7 @@ const props = defineProps<{
     study: { data: Study };
     input: StudyInput;
     progress: StudyProgress;
+    preview: StudyPreview | null;
     options: StudyFormOptions;
 }>();
 
@@ -82,8 +97,19 @@ provideStudyForm({
 
 const { status, lastSavedAt, saveNow } = useAutosave(form, {
     url: () => StudyController.update(study.value.id).url,
-    only: ['progress', 'study'],
+    delay: 700,
+    only: ['progress', 'study', 'preview'],
 });
+
+const previewIsStale = computed(
+    () => status.value === 'dirty' || status.value === 'error',
+);
+const resultsOpen = ref(false);
+
+function goToFromResults(key: SectionKey): void {
+    resultsOpen.value = false;
+    goTo(key);
+}
 
 const steps: Record<SectionKey, { component: unknown; description: string }> = {
     basic: {
@@ -181,6 +207,15 @@ function goBy(offset: number): void {
                     :last-saved-at="lastSavedAt"
                     @retry="saveNow"
                 />
+                <Button
+                    variant="outline"
+                    size="sm"
+                    class="2xl:hidden"
+                    @click="resultsOpen = true"
+                >
+                    <ChartNoAxesCombined class="size-4" />
+                    النتائج المباشرة
+                </Button>
                 <Button variant="outline" size="sm" as-child>
                     <Link :href="show(study.id)">
                         <Eye class="size-4" />
@@ -192,7 +227,7 @@ function goBy(offset: number): void {
 
         <div
             ref="editor"
-            class="grid scroll-mt-6 gap-6 lg:grid-cols-[260px_minmax(0,1fr)]"
+            class="grid scroll-mt-6 gap-6 lg:grid-cols-[260px_minmax(0,1fr)] 2xl:grid-cols-[240px_minmax(0,1fr)_380px]"
         >
             <!-- Progress and steps -->
             <aside class="space-y-4 lg:sticky lg:top-6 lg:self-start">
@@ -300,6 +335,37 @@ function goBy(offset: number): void {
                     </div>
                 </footer>
             </section>
+
+            <!-- Live results (wide screens) -->
+            <aside
+                class="hidden 2xl:sticky 2xl:top-6 2xl:block 2xl:max-h-[calc(100svh-3rem)] 2xl:self-start 2xl:overflow-y-auto"
+            >
+                <ResultsPanel
+                    :preview="preview"
+                    :stale="previewIsStale"
+                    :updating="status === 'saving'"
+                    @go-to="goTo"
+                />
+            </aside>
         </div>
+
+        <!-- Live results (smaller screens) -->
+        <Sheet v-model:open="resultsOpen">
+            <SheetContent
+                side="left"
+                class="w-full overflow-y-auto p-3 pt-12 sm:max-w-md"
+            >
+                <SheetTitle class="sr-only">النتائج المباشرة</SheetTitle>
+                <SheetDescription class="sr-only">
+                    ملخص مالي يُحدَّث تلقائيًا بعد حفظ التعديلات.
+                </SheetDescription>
+                <ResultsPanel
+                    :preview="preview"
+                    :stale="previewIsStale"
+                    :updating="status === 'saving'"
+                    @go-to="goToFromResults"
+                />
+            </SheetContent>
+        </Sheet>
     </div>
 </template>

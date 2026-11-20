@@ -10,6 +10,7 @@ use App\Http\Requests\UpdateStudyDraftRequest;
 use App\Http\Resources\StudyResource;
 use App\Models\ReferenceOption;
 use App\Models\Study;
+use App\Services\Calculation\FeasibilityCalculationService;
 use App\Services\Studies\CalculateStudyProgressService;
 use App\Services\Studies\StudyInputSchema;
 use Illuminate\Http\RedirectResponse;
@@ -64,7 +65,7 @@ class StudyController extends Controller
     /**
      * Show the multi-step editor for a draft study.
      */
-    public function edit(Study $study, CalculateStudyProgressService $progress): Response|RedirectResponse
+    public function edit(Study $study, CalculateStudyProgressService $progress, FeasibilityCalculationService $calculator): Response|RedirectResponse
     {
         Gate::authorize('view', $study);
 
@@ -81,12 +82,14 @@ class StudyController extends Controller
             'study' => new StudyResource($study),
             'input' => $input,
             'progress' => $progress->calculate($study, $input),
+            'preview' => fn (): ?array => $calculator->preview($study),
             'options' => $this->formOptions(),
         ]);
     }
 
     /**
-     * Save the draft. Saving never finalizes or locks the study.
+     * Save the draft. Saving never finalizes or locks the study; the editor
+     * reloads the progress and the live preview afterwards.
      */
     public function update(UpdateStudyDraftRequest $request, Study $study, UpdateStudyDraftAction $updateDraft): RedirectResponse
     {

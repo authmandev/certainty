@@ -162,3 +162,52 @@ export type StudyProgress = {
     percentage: number;
     sections: SectionProgress[];
 };
+
+export type PreviewWarning = {
+    code: string;
+    section: SectionKey | 'results';
+    message: string;
+};
+
+export type StudyPreview = {
+    calculation_version: string;
+    currency: string | null;
+    decimals: number;
+    study_years: number;
+    summary: {
+        total_capital: number;
+        total_borrowed: number;
+        total_liabilities_payable: number;
+        self_financing: number;
+        unused_borrowed_funds: number;
+        monthly_salaries: number;
+        monthly_fixed_costs: number;
+        monthly_revenue_without_vat: number;
+        monthly_variable_costs_without_vat: number;
+    };
+    indicators: {
+        total_sales: number;
+        average_sales: number;
+        average_profit: number;
+        capital_recovery: {
+            status: 'within' | 'more_than' | 'not_available';
+            years: number | null;
+            label: string;
+        };
+        market_share: number | null;
+    };
+    setup_costs: {
+        name: string;
+        value: number;
+        is_study_fee: boolean;
+        is_unused_borrowed_funds: boolean;
+    }[];
+    yearly: {
+        year: number;
+        revenue: number;
+        expenses: number;
+        profit: number;
+        profit_ratio: number | null;
+    }[];
+    warnings: PreviewWarning[];
+};
