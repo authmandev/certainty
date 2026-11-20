@@ -59,6 +59,8 @@ export default defineConfig({
             'resources/js/components/ui/*',
             'resources/js/routes/**',
             'resources/js/wayfinder/**',
+            'tests/Legacy/**',
+            'tests/Fixtures/**',
         ],
         options: {
             denyWarnings: true,
@@ -75,6 +77,8 @@ export default defineConfig({
         ignorePatterns: [
             '.github/**',
             'docs/**',
+            'tests/Legacy/**',
+            'tests/Fixtures/**',
             'composer.json',
             'resources/js/components/ui/*',
             'resources/views/mail/*',

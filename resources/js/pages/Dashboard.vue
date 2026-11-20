@@ -7,7 +7,7 @@ import StudyStatusBadge from '@/components/StudyStatusBadge.vue';
 import { Button } from '@/components/ui/button';
 import { formatDate } from '@/lib/format';
 import { dashboard } from '@/routes';
-import { create, show } from '@/routes/studies';
+import { create, edit, show } from '@/routes/studies';
 import type { Study } from '@/types';
 
 defineOptions({
@@ -95,6 +95,27 @@ defineProps<{
                     />
                 </div>
 
+                <div class="mt-4">
+                    <div
+                        class="flex items-center justify-between text-xs text-muted-foreground"
+                    >
+                        <span>اكتمال البيانات</span>
+                        <span class="tabular-nums"
+                            >{{ study.completion_percentage }}%</span
+                        >
+                    </div>
+                    <div
+                        class="mt-1.5 h-1.5 overflow-hidden rounded-full bg-muted"
+                    >
+                        <div
+                            class="h-full rounded-full bg-primary"
+                            :style="{
+                                width: `${study.completion_percentage}%`,
+                            }"
+                        ></div>
+                    </div>
+                </div>
+
                 <dl class="mt-4 grid grid-cols-2 gap-3 text-sm">
                     <div>
                         <dt class="text-xs text-muted-foreground">
@@ -119,7 +140,10 @@ defineProps<{
                         متبقٍ {{ study.days_remaining }} يومًا
                     </span>
                     <span v-else></span>
-                    <Button variant="outline" size="sm" as-child>
+                    <Button v-if="study.is_editable" size="sm" as-child>
+                        <Link :href="edit(study.id)">متابعة</Link>
+                    </Button>
+                    <Button v-else variant="outline" size="sm" as-child>
                         <Link :href="show(study.id)">عرض الدراسة</Link>
                     </Button>
                 </div>

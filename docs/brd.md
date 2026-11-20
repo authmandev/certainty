@@ -428,6 +428,14 @@ Progress must be calculated deterministically using documented rules.
 
 The progress indicator must not be based solely on the number of visited pages.
 
+**Implemented rules (Milestone 3):** progress is computed from the saved input only. Each of the five sections scores the share of its required items that are filled in, and the overall percentage is the rounded average of the five section scores (20% each).
+- Owners, setup assets and products need at least one row.
+- Every row the customer adds, in any group, must be complete.
+- An empty optional group (loans, fixed costs, employees, competitors) adds no item.
+- A category of "أخرى" requires a description.
+
+The rules live in `CalculateStudyProgressService`. The percentage is stored on the study on every draft save.
+
 ## FR-012 — Input Validation
 
 Validation shall include:
@@ -794,6 +802,8 @@ Suggested indicators based on available legacy results:
 Preview values shall use backend calculation results.
 
 The frontend may debounce requests to avoid excessive server calls. The debounce must be short enough that the update still feels live (target: results visible within about one second of the last keystroke).
+
+**Implemented (Milestone 5):** the preview is part of the draft autosave. The editor saves 0.7 s after the last keystroke, and the save response reloads `progress` and `preview` together, so the figures always come from `FeasibilityCalculationService` and match the stored draft. While a save is blocked by an invalid value, the panel keeps the last results and marks them as waiting for the save. The panel shows total capital, loans with interest, self-financing, expected monthly revenue, monthly salaries, monthly fixed costs (including loan instalments), total sales, market share, average annual net profit and capital recovery. It also shows the revenue, expenses and profit chart and yearly table, the capital split, the setup costs and the FR-031 warnings, each with a link to its step. A draft that cannot be calculated (for example, figures that overflow) shows a notice instead of results and never blocks editing.
 
 ## FR-030 — Charts
 
@@ -1954,7 +1964,7 @@ Notation: *r* = VAT rate. Quantities and amounts are monthly unless stated. Each
     - Assets = ending cash + long-term assets − that year's depreciation − cash assets.
     - Liabilities = remaining principal.
     - Equity = retained earnings + self-financing + profit + (−investing CF) + principal repaid to date.
-    - **Not guaranteed to balance**. Do not fix silently (FR-027).
+    - The equity formula reconciles with the asset side: in all 13 reference scenarios run through the original code (Milestone 4), assets equal liabilities plus equity. No balancing adjustment is applied either way.
 13. **Retained earnings** grow by profit after tax − investing CF each year.
 14. **Capital recovery** counts the years in which retained earnings < TotalAssets. The output is "خلال N سنوات" or "أكثر من N سنوات". A count of 0 (recovered in year 1) outputs "غير متوفر".
 15. **Average profit** = final-year retained earnings ÷ years.
@@ -1991,6 +2001,8 @@ The two ways to apply A-05 are:
 
 ## 25.6 Open Items Requiring Confirmation
 
+> **All open items are tracked in [`docs/open-items.md`](open-items.md).** The table below is kept for history.
+
 | ID | Question |
 |---|---|
 | O-01 | Contact, Privacy Policy and Terms: separate pages, or sections in the single landing page? **Implemented per recommendation (Milestone 2):** Contact is a landing-page section; Privacy and Terms are separate pages. Their text is a draft pending client legal review. |
@@ -1999,6 +2011,7 @@ The two ways to apply A-05 are:
 | O-04 | Confirm that `submission.php` contains no additional calculations, and supply `readableAmount()` if exact number formatting must match. |
 | O-05 | ~~Study fee treatment~~: **resolved, Option A** (§25.5). |
 | O-06 | Default currency: legacy falls back to Kuwaiti Dinar (`د.ك.`). V1 default to SAR (`ر.س.`)? Restrict the currency list to the Gulf currencies? |
+| O-07 | Study fee when the study currency differs from the fee currency (SAR): currently not added, with a warning. Restrict studies to SAR, or supply an exchange-rate rule? |
 
 ## 25.7 Legacy Quirks to Preserve, Not Fix (FR-027)
 
@@ -2007,13 +2020,64 @@ The two ways to apply A-05 are:
 | Q-01 | The loan instalment is passed through `.toFixed(currencyDecimals)`, where `currencyDecimals` resolves to the `<select>` element, not the number. That gives `toFixed(NaN)`, which equals `toFixed(0)`. **The instalment used in the statements is rounded to a whole number**, while the total payable uses the unrounded value. |
 | Q-02 | VAT is extracted from VAT-inclusive costs as `amount · r` instead of `amount · r/(1+r)` (25.4 item 9). |
 | Q-03 | The "includes VAT" checkbox on loan-instalment rows resets on every recalculation and is never saved, so it is effectively always off. |
-| Q-04 | The balance sheet does not necessarily balance (25.4 item 12). |
+| Q-04 | ~~The balance sheet does not necessarily balance.~~ **Withdrawn (Milestone 4):** running the original code shows the balance sheet balances in every reference scenario. |
 | Q-05 | Capital recovery shows "غير متوفر" when the capital is recovered within the first year (25.4 item 14). |
 | Q-06 | Asset "includes VAT" computes `VATofDepreciation`, which is never used in any output. |
 | Q-07 | Depreciation on the balance sheet is that year's depreciation only, not the accumulated total. |
 | Q-08 | Market share uses VAT-inclusive sales. |
 
 Each quirk shall be covered by a regression test that asserts the legacy result, and listed in the migration-differences document.
+
+---
+
+# 26. Calculation Engine Migration Record (Milestone 4)
+
+This section is the migration-differences document required by FR-028 and §25.7.
+
+## 26.1 Approach
+
+- `tests/Legacy/cassandra-legacy.js` is a verbatim copy of the calculation script from the docx source (O-03).
+- `tests/Legacy/harness.mjs` runs that exact code in Node against a minimal stand-in for jQuery. The only additions are two lines that copy internal values out. Running `node tests/Legacy/harness.mjs` regenerates the fixtures in `tests/Fixtures/legacy/`.
+- The Laravel port is `App\Services\Calculation\CassandraLegacyEngine`, version `cassandra_legacy_v1`. `LegacyParityTest` compares it with every fixture.
+- The fixtures are produced by the original code. They are not client-verified results (A-12). Client-supplied studies will be added as acceptance fixtures when available.
+
+## 26.2 Result
+
+All 13 reference scenarios match the original code to within one part in 10⁹ on every compared figure: totals, each yearly income-statement, cash-flow and balance-sheet line, loan instalment rows, break-even prices and margins, and chart data. **No numerical differences.**
+
+The scenarios cover:
+- loans: none, interest-free, interest-bearing, and several loans with unused funds
+- products: one, several, capacity limits, zero sales
+- assets: depreciation and replacement
+- VAT: zero and non-zero
+- study length: 1, 2, 3, 5 and 10 years
+- market share
+- the study fee
+- rows the legacy form ignores
+- capital recovered in the first year
+
+## 26.3 Input mapping decisions (`LegacyFormMapper`)
+
+| Situation | Behaviour |
+|---|---|
+| Empty numeric field | Treated as 0, as the legacy `Number('')` did. |
+| Row without a name | Category label is used. Rows with neither a name nor a category are ignored, as in the legacy form, with a warning. |
+| Loan without a lender or repayment years | Ignored, with a warning. |
+| VAT not chosen | 0%, with a warning. |
+| Study length not chosen | 2 years (the legacy form's default selection), with a warning. |
+| Study fee (A-05 Option A) | Added once as the setup cost `رسوم إعداد دراسة الجدوى` with life 0 and depreciation 0. It is never stored in the customer's input. |
+| Fee currency differs from study currency (**O-07**) | The fee is not added, and a warning is shown, because no exchange rate is available. |
+| Year with a negative profit | Informational warning (FR-031). |
+
+## 26.4 Legacy behaviour not ported
+
+- Display-only values: `readableAmount` formatting, the `AccDeprToTA` ratio text, and `VATofDepreciation` (Q-06).
+- Two unreachable conditions: a NaN fixed-cost period and the `Period == 0` loan branch, since zero-year loans are dropped earlier.
+
+## 26.5 Corrections to §25
+
+- Q-04 is withdrawn: the legacy balance sheet balances in every reference scenario.
+- Q-01, Q-02, Q-03, Q-05, Q-06, Q-07 and Q-08 are each pinned by a test in `LegacyQuirksTest`.
 
 ---
 

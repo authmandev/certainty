@@ -29,3 +29,17 @@ export function formatDate(value: string): string {
         new Date(value),
     );
 }
+
+/**
+ * Short amounts for chart axes, such as "1.2 مليون".
+ */
+export function formatCompact(value: number): string {
+    return new Intl.NumberFormat(LOCALE, {
+        notation: 'compact',
+        maximumFractionDigits: 1,
+    }).format(value);
+}
+
+export function formatPercent(value: number, decimals = 1): string {
+    return `${formatNumber(value, decimals)}%`;
+}

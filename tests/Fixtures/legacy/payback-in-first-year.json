@@ -1,0 +1,251 @@
+{
+  "name": "payback-in-first-year",
+  "description": "Capital recovered within the first year shows as not available (BRD Q-05).",
+  "generated_by": "tests/Legacy/harness.mjs from the legacy Cassandra source; not client-verified (BRD A-12)",
+  "form": {
+    "currency_symbol": "ر.س.",
+    "decimals": 2,
+    "vat": 0,
+    "study_years": 2,
+    "market_value": null,
+    "loans": [],
+    "assets": [
+      {
+        "name": "معدات بسيطة",
+        "value": 10000,
+        "life_span": 5,
+        "depreciation": 10,
+        "includes_vat": false
+      }
+    ],
+    "employees": [],
+    "fixed_costs": [],
+    "products": [
+      {
+        "name": "خدمة",
+        "vc": 10,
+        "quantity": 1000,
+        "price": 60,
+        "capacity": 1000,
+        "yearly_increase": 0
+      }
+    ]
+  },
+  "expected": {
+    "OD": {
+      "AverageProfit": 599050,
+      "CapitalRecovery": "غير متوفر",
+      "TotalSales": 1440000,
+      "AverageSales": 720000,
+      "MarketShare": 0,
+      "TotalBorrowed": 0,
+      "TotalLiabilities": 0,
+      "TotalAssets": 10000,
+      "UnassignedLiabilities": 0,
+      "Self_Financing": 10000,
+      "TotalSalaries": 0,
+      "TotalFC": 0,
+      "TotalFCPaidVAT": 0,
+      "TotalRevenue_wTax": 60000,
+      "TotalRevenue_woTax": 60000,
+      "TotalUnitsSold": 1000,
+      "TotalVC_wTax": 10000,
+      "TotalVC_woTax": 10000
+    },
+    "years": [
+      {
+        "Payment_woInterest": 0,
+        "TotalLiabilities": 0,
+        "TotalLiabsToEquity": 0,
+        "RetainedEarnings": 599000,
+        "TotalAssets": 609000,
+        "LongTermAssets": 10000,
+        "CashLongTermAssets": 0,
+        "AccDepr": 1000,
+        "AccDeprToTA": "10%",
+        "ValueOfAssetsBought": 0,
+        "ValueOfAssetsSold": 0,
+        "VATofDepreciation": 0,
+        "TotalFC": 0,
+        "TotalFC_woPayments": 0,
+        "FCPaidVAT": 0,
+        "TotalRevenueBeforeTax": 600000,
+        "TotalRevenue_wTax": 720000,
+        "TotalRevenue_woTax": 720000,
+        "TotalUnitsSold": 12000,
+        "TotalVC_wTax": 120000,
+        "TotalVC_woTax": 120000,
+        "VCPaidVAT": 0,
+        "TotalExpensesBeforeTax": 1000,
+        "VATin": 0,
+        "VATout": 0,
+        "VAToutCash": 0,
+        "PendingVAT": 0,
+        "ProfitBeforeTax": 599000,
+        "ProfitAfterTax": 599000,
+        "AverageProfitPerSale": 0,
+        "CashFlowFromOperating": 600000,
+        "CashFlowFromInvesting": 0,
+        "CashFlowFromFinancing": 0,
+        "NetCashFlow": 600000,
+        "CashFlowBeginning": 0,
+        "CashFlowEnding": 600000,
+        "FinalTotalExpenses": 121000,
+        "FinalTotalRevenue": 720000,
+        "FinalTotalProfit": 599000,
+        "TotalOwnersEquity": 609000
+      },
+      {
+        "Payment_woInterest": 0,
+        "TotalLiabilities": 0,
+        "TotalLiabsToEquity": 0,
+        "RetainedEarnings": 1198100,
+        "TotalAssets": 1208100,
+        "LongTermAssets": 9000,
+        "CashLongTermAssets": 0,
+        "AccDepr": 900,
+        "AccDeprToTA": "10%",
+        "ValueOfAssetsBought": 0,
+        "ValueOfAssetsSold": 0,
+        "VATofDepreciation": 0,
+        "TotalFC": 0,
+        "TotalFC_woPayments": 0,
+        "FCPaidVAT": 0,
+        "TotalRevenueBeforeTax": 600000,
+        "TotalRevenue_wTax": 720000,
+        "TotalRevenue_woTax": 720000,
+        "TotalUnitsSold": 12000,
+        "TotalVC_wTax": 120000,
+        "TotalVC_woTax": 120000,
+        "VCPaidVAT": 0,
+        "TotalExpensesBeforeTax": 900,
+        "VATin": 0,
+        "VATout": 0,
+        "VAToutCash": 0,
+        "PendingVAT": 0,
+        "ProfitBeforeTax": 599100,
+        "ProfitAfterTax": 599100,
+        "AverageProfitPerSale": 0,
+        "CashFlowFromOperating": 600000,
+        "CashFlowFromInvesting": 0,
+        "CashFlowFromFinancing": 0,
+        "NetCashFlow": 600000,
+        "CashFlowBeginning": 600000,
+        "CashFlowEnding": 1200000,
+        "FinalTotalExpenses": 120900,
+        "FinalTotalRevenue": 720000,
+        "FinalTotalProfit": 599100,
+        "TotalOwnersEquity": 1208100
+      }
+    ],
+    "assets": [
+      {
+        "Name": "معدات بسيطة",
+        "AccumulatedValue": 8100,
+        "Value": 10000,
+        "IsCash": 0,
+        "LifeToGo": 3,
+        "LifeSpan": 5,
+        "DepreciationRatio": 10,
+        "IncludesVAT": false,
+        "DepreciationValue": 900,
+        "VATofDepreciation": 0
+      }
+    ],
+    "liabilities": [],
+    "fixedCosts": [],
+    "products": [
+      {
+        "Name": "خدمة",
+        "VC": 10,
+        "Quantity": 1000,
+        "Capacity": 1000,
+        "YearlyIncrease": 0,
+        "Price": 60,
+        "Revenue_woTax": 60000,
+        "Revenue_wTax": 60000,
+        "TotalVC_wTax": 10000,
+        "TotalVC_woTax": 10000,
+        "VCwoTax": 10,
+        "BreakEvenPrice": 10.075,
+        "ProfitMargin": 495.53349875930525
+      }
+    ],
+    "chartProfitibility": [
+      [
+        "1",
+        720000,
+        121000,
+        599000
+      ],
+      [
+        "2",
+        720000,
+        120900,
+        599100
+      ]
+    ],
+    "sy": "2",
+    "cvat": 0,
+    "pricing": [
+      {
+        "year": 0,
+        "name": "خدمة",
+        "breakEven": 10.083333333333336,
+        "margin": 495.04132231404947,
+        "quantity": 1000
+      },
+      {
+        "year": 1,
+        "name": "خدمة",
+        "breakEven": 10.075,
+        "margin": 495.53349875930525,
+        "quantity": 1000
+      }
+    ],
+    "charts": [
+      {
+        "type": "pie",
+        "div": "chartSetupCosts",
+        "data": [
+          [
+            "معدات بسيطة",
+            10000
+          ]
+        ]
+      },
+      {
+        "type": "pie",
+        "div": "chartCapitalDistribution",
+        "data": [
+          [
+            "مديونية",
+            0
+          ],
+          [
+            "تمويل خاص",
+            10000
+          ]
+        ]
+      },
+      {
+        "type": "line",
+        "div": "chartProfitibility",
+        "data": [
+          [
+            "1",
+            720000,
+            121000,
+            599000
+          ],
+          [
+            "2",
+            720000,
+            120900,
+            599100
+          ]
+        ]
+      }
+    ]
+  }
+}

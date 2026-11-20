@@ -12,5 +12,7 @@
     "If you're having trouble clicking the \":actionText\" button, copy and paste the URL below\ninto your web browser:": "إذا واجهت مشكلة في الضغط على زر \":actionText\"، انسخ الرابط التالي والصقه في متصفحك:",
     "All rights reserved.": "جميع الحقوق محفوظة.",
     "Study created.": "تم إنشاء الدراسة.",
-    "Accounts with studies cannot be deleted. Please contact us for help.": "لا يمكن حذف حساب يحتوي على دراسات. يرجى التواصل معنا للمساعدة."
+    "Accounts with studies cannot be deleted. Please contact us for help.": "لا يمكن حذف حساب يحتوي على دراسات. يرجى التواصل معنا للمساعدة.",
+    "This study can no longer be edited.": "لم يعد بالإمكان تعديل هذه الدراسة.",
+    "Owner shares must not exceed 100% in total.": "يجب ألا يتجاوز مجموع حصص الملاك 100%."
 }
