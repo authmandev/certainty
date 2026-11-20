@@ -26,7 +26,11 @@ function onChange(event: Event, options: OptionItem<T>[]): void {
             :aria-invalid="invalid || undefined"
             @change="onChange($event, options)"
         >
-            <option value="" :selected="model === null">
+            <option
+                value=""
+                :selected="model === null"
+                class="bg-popover text-muted-foreground"
+            >
                 {{ placeholder ?? 'اختر…' }}
             </option>
             <option
@@ -34,7 +38,7 @@ function onChange(event: Event, options: OptionItem<T>[]): void {
                 :key="option.value"
                 :value="option.value"
                 :selected="option.value === model"
-                class="text-foreground"
+                class="bg-popover text-popover-foreground"
             >
                 {{ option.label }}
             </option>
