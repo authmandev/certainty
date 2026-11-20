@@ -33,7 +33,9 @@ return [
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app/private'),
-            'serve' => true,
+            // Receipts and reports live here; they are only served through
+            // authorization-checked controllers (BRD NFR-002), never by URL.
+            'serve' => false,
             'throw' => false,
             'report' => false,
         ],

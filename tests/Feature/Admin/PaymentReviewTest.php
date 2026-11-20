@@ -1,8 +1,10 @@
 <?php
 
+use App\Enums\AuditAction;
 use App\Enums\PaymentStatus;
 use App\Enums\ReceiptStatus;
 use App\Models\PaymentReceipt;
+use App\Models\StudyAuditLog;
 use App\Models\StudyPayment;
 use App\Models\User;
 use Inertia\Testing\AssertableInertia as Assert;
@@ -126,3 +128,21 @@ test('customers cannot review payments', function (string $method, string $route
     ['post', 'admin.payments.approve'],
     ['post', 'admin.payments.reject'],
 ]);
+
+test('approving twice has no further side effects', function () {
+    $receipt = PaymentReceipt::factory()->create();
+    $admin = User::factory()->admin()->create();
+
+    $this->actingAs($admin)->post(route('admin.payments.approve', $receipt->payment));
+    $approvedAt = $receipt->payment->fresh()->approved_at;
+    $this->travel(5)->minutes();
+
+    $this->actingAs(User::factory()->admin()->create())
+        ->post(route('admin.payments.approve', $receipt->payment))
+        ->assertSessionHasErrors('payment');
+
+    $payment = $receipt->payment->fresh();
+    expect($payment->approved_at->equalTo($approvedAt))->toBeTrue()
+        ->and($payment->approved_by)->toBe($admin->id)
+        ->and(StudyAuditLog::query()->where('action', AuditAction::PaymentApproved)->count())->toBe(1);
+});

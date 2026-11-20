@@ -146,8 +146,8 @@ const total = computed(() =>
                         :key="payment.id"
                         class="transition-colors hover:bg-muted/40"
                     >
-                        <td class="px-4 py-3 font-medium" dir="ltr">
-                            <span class="block text-end">{{
+                        <td class="px-4 py-3 font-medium">
+                            <span dir="ltr">{{
                                 payment.reference_number
                             }}</span>
                         </td>
@@ -155,10 +155,8 @@ const total = computed(() =>
                             <p class="font-medium">
                                 {{ payment.customer?.name }}
                             </p>
-                            <p class="text-xs text-muted-foreground" dir="ltr">
-                                <span class="block text-end">{{
-                                    payment.customer?.email
-                                }}</span>
+                            <p class="text-xs text-muted-foreground">
+                                {{ payment.customer?.email }}
                             </p>
                         </td>
                         <td class="px-4 py-3">

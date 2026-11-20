@@ -7,7 +7,7 @@ Every unanswered question, unconfirmed assumption, pending input or deferred tas
 - **Blocks** names the milestone that needs the answer. "—" means it only needs confirming.
 - When an item is resolved, update the BRD section it came from.
 
-_Last updated: 20 November 2026 (Milestone 8)._
+_Last updated: 20 November 2026 (Milestone 9)._
 
 ---
 
@@ -36,6 +36,7 @@ _Last updated: 20 November 2026 (Milestone 8)._
 | OI-29 | Rejection reasons must be 5 to 1000 characters, and approval cannot be undone. Confirm. | Implemented. Undoing a decision would need a future admin correction tool (M8). | M8 | Milestone 6, BRD FR-021 | Open |
 | OI-32 | When reopening a finalized study, the admin enters how many days the customer gets to make corrections (default 14). Confirm this, or set a fixed period. | Implemented. The days and reason are recorded in the audit history. | — | Milestone 8, BRD FR-040 | Open |
 | OI-33 | Should account-level events (admin creation or promotion, profile changes) also be audited? The audit history is per study, covering the FR-042 actions. | Not recorded. `certainty:create-admin` is run by operators from the server shell. | — | Milestone 8, BRD FR-042 | Open |
+| OI-34 | Add a Content Security Policy. Baseline security headers are sent; a CSP is not, because the Inertia root view uses inline scripts. | Could be added at the web server, or in the app with nonces. | — | Milestone 9, BRD NFR | Open |
 | OI-30 | Review a sample final report against the old Cassandra reports. | The layout is rebuilt from the legacy `OUTPUT_PART*` markup and labels (M-03). Statements are grouped as up to five years per table, and project, market and SWOT text is included. A sample can be generated from any finalized study. | Launch | Milestone 7, BRD FR-032 | Open |
 
 ## 2. Content and assets (Client)
@@ -51,11 +52,11 @@ _Last updated: 20 November 2026 (Milestone 8)._
 
 | ID | Task | Notes | Blocks | Status |
 |---|---|---|---|---|
-| OI-19 | Visual QA of the landing page, auth pages, study editor and live results panel (sticky column at 2xl, sheet below that) at desktop, tablet and mobile, in light and dark mode. | The admin pages (dashboard, users, studies, study detail, audit log) were checked in Milestone 8 with headless Chrome against a throwaway SQLite copy, in light, dark and mobile. The customer-facing pages still need the same pass. | Launch | Open |
-| OI-21 | Production setup: run `ReferenceOptionSeeder` on every deploy, run the scheduler (`studies:expire-drafts` hourly) and a queue worker (report PDFs), and define a backup strategy for the database and private files (receipts, reports). | Backups are BRD NFR-008. | M9 | Open |
+| OI-19 | Visual QA of the landing page at desktop, tablet and mobile, in light and dark mode. | Admin pages (M8) and customer pages (M9: dashboard, create, editor including the wide results column, study page with payment and finalization, login, register) were checked with headless Chrome against a throwaway SQLite copy, at desktop, wide and phone widths, in light and dark mode. Fixed: study reference alignment and the profit value wrapping. The landing page and a real-device check remain. | Launch | Open |
+| OI-21 | Production setup: run the deployment steps, cron, queue worker and backups described in `docs/deployment.md`, then pass `php artisan certainty:check-production`. | Documented in Milestone 9. The backup approach is plain `mysqldump` plus `rsync` of `storage/app/private`; `spatie/laravel-backup` is an option if approved. | Launch | Open |
 | OI-22 | Delete the unused starter-kit auth layouts (`AuthSimpleLayout`, `AuthCardLayout`, `AuthSplitLayout`). | Replaced by `AuthShowcaseLayout`. | — | Open |
-| OI-23 | Git housekeeping: delete the `milestone-1-foundation` branch, merge Milestone 3 and Milestone 4, then merge Milestones 5 to 8 (`milestone-8-administration`, stacked on 7). | After each squash-merge, rebase the next branch with `git rebase --onto origin/main <old-base>`. | — | Open |
-| OI-31 | Install Chromium on every server that renders reports, and run a queue worker. The PDF job needs a worker; downloads fall back to rendering on demand. | Set `LARAVEL_PDF_CHROME_BINARY` if Chromium isn't on `PATH`, and `LARAVEL_PDF_CHROME_NO_SANDBOX=true` in containers. Ubuntu needs `chromium` or `chrome-headless-shell` plus `libnss3`, `libnspr4` and `libasound2`. Alternatively, switch `LARAVEL_PDF_DRIVER` to `gotenberg` or `cloudflare` with no code change. This machine has no Chromium installed; the sample was rendered with Chrome for Testing in a temporary folder. | Launch | Open |
+| OI-23 | Git housekeeping: delete merged branches, then squash-merge Milestones 3 to 9 in order (`milestone-9-release` is stacked on 8). | After each squash-merge, rebase the next branch with `git rebase --onto origin/main <old-base>`. | — | Open |
+| OI-31 | Install Chromium or Chrome for Testing on every server that renders reports, and set `LARAVEL_PDF_CHROME_BINARY`. | Steps in `docs/deployment.md` §6. Development uses Chrome for Testing in `~/.cache/chrome-for-testing`. `certainty:check-production` fails when the renderer is missing. Gotenberg and Cloudflare work with no code change. | Launch | Open |
 
 ---
 
