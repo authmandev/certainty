@@ -1041,6 +1041,14 @@ Each event should contain:
 - Previous report versions remain preserved.
 - Every privileged state change is recorded in audit history.
 
+**Implemented (Milestone 8):**
+- **Admin panel:** new modules for users, studies and the action history. The dashboard shows counts for receipts awaiting review, customers, active drafts, drafts expiring within 7 days, expired studies and finalized studies, plus the latest actions.
+- **Study detail:** a read-only view of all saved input, the live results panel, the payment, report versions, extensions and the study's action history.
+- **Extending a draft:** `ExtendStudyAction` takes the number of days (1–365) and a required reason. An expired draft gets the days counted from now; a draft that hasn't expired gets them added to its current `expires_at` (O-02/OI-01). The study becomes an editable draft again, and a `study_extensions` row records the change.
+- **Reopening:** `ReopenStudyAction` applies only to finalized studies and needs a reason and an editing period in days. The study returns to draft with the new deadline, `finalized_at` is cleared, and earlier `study_reports` rows are kept. The next finalization creates version `current_version + 1`. The payment stays approved (A-06). Earlier report versions remain downloadable while the study is being corrected.
+- **Audit history:** `study_audit_logs` records receipt submission, payment approval and rejection, extension, finalization, reopening and report-file generation. Each entry stores the actor (null for the system), the previous and new values and the reason. It is written inside the same transaction as the change.
+- **Admin accounts:** `php artisan certainty:create-admin {email} [--name=] [--promote]` creates a verified administrator, or promotes an existing user.
+
 ---
 
 # 13. Recommended Database Model

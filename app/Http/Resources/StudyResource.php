@@ -38,6 +38,11 @@ class StudyResource extends JsonResource
                     'label' => $this->payment->status->label(),
                 ],
             ] : null),
+            'customer' => $this->whenLoaded('user', fn (): array => [
+                'id' => $this->user->id,
+                'name' => $this->user->name,
+                'email' => $this->user->email,
+            ]),
             'completion_percentage' => $this->completion_percentage,
             'is_editable' => $this->isEditable(),
             'days_remaining' => $this->daysRemaining(),

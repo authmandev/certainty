@@ -2,11 +2,13 @@
 
 namespace App\Actions\Studies;
 
+use App\Enums\AuditAction;
 use App\Enums\ReferenceGroup;
 use App\Enums\StudyStatus;
 use App\Jobs\GenerateStudyReportPdf;
 use App\Models\ReferenceOption;
 use App\Models\Study;
+use App\Models\StudyAuditLog;
 use App\Models\StudyReport;
 use App\Models\User;
 use App\Services\Calculation\FeasibilityCalculationService;
@@ -68,11 +70,21 @@ class FinalizeStudyAction
                 'disk' => (string) config('certainty.reports.disk'),
             ])->save();
 
+            $previousStatus = $study->status;
+
             $study->forceFill([
                 'status' => StudyStatus::Finalized,
                 'finalized_at' => now(),
                 'current_version' => $version,
             ])->save();
+
+            StudyAuditLog::record(
+                $study,
+                $customer,
+                AuditAction::StudyFinalized,
+                ['status' => $previousStatus->value],
+                ['status' => StudyStatus::Finalized->value, 'report_version' => $version],
+            );
 
             GenerateStudyReportPdf::dispatch($report)->afterCommit();
 

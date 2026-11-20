@@ -3,7 +3,6 @@
 namespace App\Policies;
 
 use App\Enums\PaymentStatus;
-use App\Enums\StudyStatus;
 use App\Models\Study;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
@@ -57,8 +56,9 @@ class StudyPolicy
 
     /**
      * Determine whether the user can download a study's final report: the
-     * owning customer or an administrator, once the study is finalized and
-     * its payment approved (BRD FR-035).
+     * owning customer or an administrator, once the study has been finalized
+     * at least once and its payment approved (BRD FR-035). Earlier versions
+     * stay available while a reopened study is being corrected (FR-040).
      */
     public function downloadReport(User $user, Study $study): Response
     {
@@ -66,8 +66,17 @@ class StudyPolicy
             return Response::denyAsNotFound();
         }
 
-        return $study->status === StudyStatus::Finalized && $study->payment?->status === PaymentStatus::Approved
+        return $study->current_version > 0 && $study->payment?->status === PaymentStatus::Approved
             ? Response::allow()
             : Response::deny(__('The final report is not available for this study.'));
+    }
+
+    /**
+     * Determine whether the user can manage the study from the admin panel:
+     * inspect it, extend its deadline or reopen it (BRD FR-039, FR-040).
+     */
+    public function manage(User $user, Study $study): bool
+    {
+        return $user->isAdmin();
     }
 }

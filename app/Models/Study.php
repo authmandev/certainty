@@ -32,6 +32,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property-read StudyInput|null $input
  * @property-read Collection<int, StudyReport> $reports
  * @property-read StudyReport|null $latestReport
+ * @property-read Collection<int, StudyExtension> $extensions
+ * @property-read Collection<int, StudyAuditLog> $auditLogs
  */
 #[Fillable(['title', 'project_name'])]
 class Study extends Model
@@ -75,6 +77,26 @@ class Study extends Model
     public function input(): HasOne
     {
         return $this->hasOne(StudyInput::class);
+    }
+
+    /**
+     * Deadline extensions, newest first.
+     *
+     * @return HasMany<StudyExtension, $this>
+     */
+    public function extensions(): HasMany
+    {
+        return $this->hasMany(StudyExtension::class)->latest('id');
+    }
+
+    /**
+     * Action history, newest first.
+     *
+     * @return HasMany<StudyAuditLog, $this>
+     */
+    public function auditLogs(): HasMany
+    {
+        return $this->hasMany(StudyAuditLog::class)->latest('id');
     }
 
     /**

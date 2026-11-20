@@ -2,9 +2,11 @@
 
 namespace App\Actions\Payments;
 
+use App\Enums\AuditAction;
 use App\Enums\PaymentStatus;
 use App\Enums\ReceiptStatus;
 use App\Models\PaymentReceipt;
+use App\Models\StudyAuditLog;
 use App\Models\StudyPayment;
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
@@ -57,7 +59,16 @@ class SubmitPaymentReceiptAction
                     'submitted_at' => now(),
                 ])->save();
 
+                $previousStatus = $payment->status;
                 $payment->forceFill(['status' => PaymentStatus::UnderReview])->save();
+
+                StudyAuditLog::record(
+                    $payment->study_id,
+                    $customer,
+                    AuditAction::ReceiptSubmitted,
+                    ['payment_status' => $previousStatus->value],
+                    ['payment_status' => PaymentStatus::UnderReview->value, 'receipt_id' => $receipt->id],
+                );
 
                 return $receipt;
             });

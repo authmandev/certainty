@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\PaymentStatus;
+use App\Enums\StudyStatus;
 use App\Jobs\GenerateStudyReportPdf;
 use App\Models\Study;
 use App\Models\StudyInput;
@@ -116,4 +117,13 @@ test('the report is unavailable until the study is finalized and paid', function
 test('guests cannot download reports', function () {
     $this->get(route('studies.report', finalizedReport()->study))
         ->assertRedirect(route('login'));
+});
+
+test('earlier report versions stay available while a reopened study is corrected', function () {
+    $report = finalizedReport();
+    $report->study->forceFill(['status' => StudyStatus::Draft, 'finalized_at' => null])->save();
+
+    $this->actingAs($report->study->user)
+        ->get(route('studies.report', ['study' => $report->study, 'version' => 1]))
+        ->assertOk();
 });

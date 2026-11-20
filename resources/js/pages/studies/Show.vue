@@ -137,7 +137,7 @@ const study = computed(() => props.study.data);
                     :reports="reports.data"
                 />
                 <FinalizeStudyCard
-                    v-else-if="finalization"
+                    v-if="finalization"
                     :study-id="study.id"
                     :finalization="finalization"
                 />

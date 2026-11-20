@@ -2,9 +2,11 @@
 
 namespace App\Actions\Payments;
 
+use App\Enums\AuditAction;
 use App\Enums\PaymentStatus;
 use App\Enums\ReceiptStatus;
 use App\Models\PaymentReceipt;
+use App\Models\StudyAuditLog;
 use App\Models\StudyPayment;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -51,6 +53,15 @@ class ReviewPaymentAction
             $payment->forceFill($decision === ReceiptStatus::Approved
                 ? ['status' => PaymentStatus::Approved, 'approved_by' => $admin->id, 'approved_at' => now()]
                 : ['status' => PaymentStatus::Rejected])->save();
+
+            StudyAuditLog::record(
+                $payment->study_id,
+                $admin,
+                $decision === ReceiptStatus::Approved ? AuditAction::PaymentApproved : AuditAction::PaymentRejected,
+                ['payment_status' => PaymentStatus::UnderReview->value],
+                ['payment_status' => $payment->status->value, 'receipt_id' => $receipt->id],
+                $reason,
+            );
 
             return $payment;
         });
