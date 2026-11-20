@@ -81,9 +81,18 @@ function details(entry: AuditLogEntry): string[] {
         v-if="entries.length > 0"
         :class="compact ? 'space-y-3.5' : 'space-y-4'"
     >
-        <li v-for="entry in entries" :key="entry.id" class="flex gap-3">
+        <li
+            v-for="(entry, index) in entries"
+            :key="entry.id"
+            class="relative flex gap-3"
+        >
             <span
-                class="flex size-8 shrink-0 items-center justify-center rounded-full"
+                v-if="compact && index < entries.length - 1"
+                class="absolute start-4 top-9 -bottom-3.5 w-px bg-gradient-to-b from-border to-transparent"
+                aria-hidden="true"
+            ></span>
+            <span
+                class="relative flex size-8 shrink-0 items-center justify-center rounded-full ring-4 ring-card"
                 :class="tones[entry.action.value]"
             >
                 <component :is="icons[entry.action.value]" class="size-4" />
