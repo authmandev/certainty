@@ -7,6 +7,7 @@ use App\Actions\Studies\UpdateStudyDraftAction;
 use App\Enums\ReferenceGroup;
 use App\Http\Requests\StoreStudyRequest;
 use App\Http\Requests\UpdateStudyDraftRequest;
+use App\Http\Resources\StudyPaymentResource;
 use App\Http\Resources\StudyResource;
 use App\Models\ReferenceOption;
 use App\Models\Study;
@@ -57,8 +58,16 @@ class StudyController extends Controller
     {
         Gate::authorize('view', $study);
 
+        $study->load('payment.receipts');
+
         return Inertia::render('studies/Show', [
-            'study' => new StudyResource($study->load('payment')),
+            'study' => new StudyResource($study),
+            'payment' => $study->payment ? new StudyPaymentResource($study->payment) : null,
+            'bank' => Config::array('certainty.bank'),
+            'receiptRules' => [
+                'extensions' => Config::array('certainty.receipts.extensions'),
+                'max_kilobytes' => Config::integer('certainty.receipts.max_kilobytes'),
+            ],
         ]);
     }
 

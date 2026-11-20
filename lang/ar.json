@@ -14,5 +14,13 @@
     "Study created.": "تم إنشاء الدراسة.",
     "Accounts with studies cannot be deleted. Please contact us for help.": "لا يمكن حذف حساب يحتوي على دراسات. يرجى التواصل معنا للمساعدة.",
     "This study can no longer be edited.": "لم يعد بالإمكان تعديل هذه الدراسة.",
-    "Owner shares must not exceed 100% in total.": "يجب ألا يتجاوز مجموع حصص الملاك 100%."
+    "Owner shares must not exceed 100% in total.": "يجب ألا يتجاوز مجموع حصص الملاك 100%.",
+    "The receipt could not be uploaded. Please try again.": "تعذّر رفع الإيصال. يرجى المحاولة مرة أخرى.",
+    "This payment has already been approved.": "تم قبول هذا الدفع مسبقًا، ولا حاجة لرفع إيصال جديد.",
+    "Only a payment with a receipt under review can be reviewed.": "لا يمكن مراجعة إلا دفع لديه إيصال قيد المراجعة.",
+    "The receipt must be a JPG, PNG or PDF file.": "يجب أن يكون الإيصال صورة JPG أو PNG أو ملف PDF.",
+    "The receipt must not be larger than :size MB.": "يجب ألا يتجاوز حجم الإيصال :size ميجابايت.",
+    "Receipt uploaded. We will review it shortly.": "تم رفع الإيصال، وسنراجعه قريبًا.",
+    "Payment approved.": "تم قبول الدفع.",
+    "Payment rejected.": "تم رفض الدفع، وسيظهر السبب للعميل في صفحة الدراسة."
 }

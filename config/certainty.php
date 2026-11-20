@@ -72,6 +72,38 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Bank Transfer
+    |--------------------------------------------------------------------------
+    |
+    | The account customers transfer the study fee to (BRD FR-017, FR-018).
+    | Leave the values empty until the real account is known; the study page
+    | then asks the customer to contact support for the details.
+    |
+    */
+
+    'bank' => [
+        'name' => env('CERTAINTY_BANK_NAME'),
+        'account_name' => env('CERTAINTY_BANK_ACCOUNT_NAME'),
+        'iban' => env('CERTAINTY_BANK_IBAN'),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Payment Receipts
+    |--------------------------------------------------------------------------
+    |
+    | Receipts are stored on a private disk (BRD FR-020, NFR-003).
+    |
+    */
+
+    'receipts' => [
+        'disk' => env('CERTAINTY_RECEIPTS_DISK', 'local'),
+        'max_kilobytes' => (int) env('CERTAINTY_RECEIPT_MAX_KB', 5120),
+        'extensions' => ['jpg', 'jpeg', 'png', 'pdf'],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Public Contact Details
     |--------------------------------------------------------------------------
     */

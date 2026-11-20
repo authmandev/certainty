@@ -7,7 +7,7 @@ Every unanswered question, unconfirmed assumption, pending input or deferred tas
 - **Blocks** names the milestone that needs the answer. "—" means it only needs confirming.
 - When an item is resolved, update the BRD section it came from.
 
-_Last updated: 20 November 2026 (Milestone 5)._
+_Last updated: 20 November 2026 (Milestone 6)._
 
 ---
 
@@ -31,6 +31,10 @@ _Last updated: 20 November 2026 (Milestone 5)._
 | OI-14 | Confirm the remaining BRD assumptions: A-04 (price fixed at creation, already implemented), A-06 (reopening needs no new payment), A-07 (report versions are immutable), A-09 (report keeps the legacy structure), A-11 (no mandatory email verification). | Built or planned on these assumptions. | M7 / M8 | BRD §24 | Open |
 | OI-24 | Approve the figures in the live results panel. FR-029 only suggests a list. | Total capital, loans with interest, self-financing, monthly revenue (year 1, excluding VAT), monthly salaries, monthly fixed costs including loan instalments, total sales, market share, average annual net profit, capital recovery, a yearly revenue/expenses/profit chart and table, the capital split and the setup costs. | — | Milestone 5, BRD FR-029/FR-030 | Open |
 | OI-25 | The live preview refreshes when the draft is saved (0.7 s after typing stops, plus the request time). That is about 1 second, the FR-029 target. Confirm this feels live enough. Narrative fields also trigger a save; that doesn't change the figures. | Implemented. The alternative is a separate preview request for unsaved input. | — | Milestone 5, BRD FR-029 | Open |
+| OI-26 | Confirm the receipt rules: JPG, PNG or PDF; at most 5 MB; at most 10 uploads a minute. | Implemented. The size limit is configurable (`CERTAINTY_RECEIPT_MAX_KB`). | — | Milestone 6, BRD FR-020 | Open |
+| OI-27 | Can a customer replace a receipt that is still under review? | Yes. The new upload replaces it, and the old one stays in the history as "replaced". Once a payment is approved, uploads are locked. | — | Milestone 6, BRD FR-019 | Open |
+| OI-28 | Should anyone be notified by email: admins when a receipt arrives, and customers when it is approved or rejected? | No emails yet; the BRD doesn't require them. Admins see the pending count on their dashboard, and customers see the status and any rejection reason on the study page. | — | Milestone 6 | Open |
+| OI-29 | Rejection reasons must be 5 to 1000 characters, and approval cannot be undone. Confirm. | Implemented. Undoing a decision would need a future admin correction tool (M8). | M8 | Milestone 6, BRD FR-021 | Open |
 
 ## 2. Content and assets (Client)
 
@@ -39,7 +43,7 @@ _Last updated: 20 November 2026 (Milestone 5)._
 | OI-15 | Legal review of the Privacy Policy and Terms text. | Draft text written from how the platform works (`pages/public/Privacy.vue`, `Terms.vue`). | Launch | Milestone 2 | Open |
 | OI-16 | Brand assets: logo, brand colours, company or institution name, and company stamp for reports. | A simple chart-in-square mark, provisional teal and gold colours. `favicon.ico` and `apple-touch-icon.png` are still Laravel's. | M7 report, launch | BRD FR-033, Milestone 2 | Open |
 | OI-17 | Public contact email and phone. | Empty, so the contact card shows text only. Set `CERTAINTY_CONTACT_EMAIL` and `CERTAINTY_CONTACT_PHONE`. | Launch | Milestone 2 | Open |
-| OI-18 | Bank account details for transfer instructions: bank, account name, IBAN. | Not collected yet. | M6 | BRD FR-018, A-10 | Open |
+| OI-18 | Bank account details for transfer instructions: bank, account name, IBAN. | The transfer instructions are built. Set `CERTAINTY_BANK_NAME`, `CERTAINTY_BANK_ACCOUNT_NAME` and `CERTAINTY_BANK_IBAN`. Until then the study page asks customers to contact support for the details. | Launch | BRD FR-018, A-10 | Open |
 
 ## 3. Engineering follow-ups (Dev / You)
 
@@ -49,7 +53,7 @@ _Last updated: 20 November 2026 (Milestone 5)._
 | OI-20 | A way to create admin users in production, such as an `artisan` command. | Only the seeder creates an admin today, and it is for development. | M8 / launch | Open |
 | OI-21 | Production setup: run `ReferenceOptionSeeder` on every deploy, run the scheduler (`studies:expire-drafts` hourly), and define a backup strategy for the database and private files. | Backups are BRD NFR-008. | M9 | Open |
 | OI-22 | Delete the unused starter-kit auth layouts (`AuthSimpleLayout`, `AuthCardLayout`, `AuthSplitLayout`). | Replaced by `AuthShowcaseLayout`. | — | Open |
-| OI-23 | Git housekeeping: delete the `milestone-1-foundation` branch, merge Milestone 3 and Milestone 4, then push and merge Milestone 5 (`milestone-5-live-results`, stacked on Milestone 4). | After each squash-merge, rebase the next branch with `git rebase --onto origin/main <old-base>`. | — | Open |
+| OI-23 | Git housekeeping: delete the `milestone-1-foundation` branch, merge Milestone 3 and Milestone 4, then merge Milestone 5 and Milestone 6 (`milestone-6-bank-transfers`, stacked on 5). | After each squash-merge, rebase the next branch with `git rebase --onto origin/main <old-base>`. | — | Open |
 
 ---
 
