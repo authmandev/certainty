@@ -600,6 +600,12 @@ Receipt files must be stored privately and made accessible only to the customer 
 
 This is the only file-upload feature required for customer input in V1.
 
+**Implemented (Milestone 6):**
+- **Accepted files:** JPG, PNG or PDF up to 5 MB (`config/certainty.php` → `receipts`). The type is checked against both the extension and the detected contents.
+- **Storage:** files go on the private `local` disk under `receipts/{payment id}/{uuid}`, so the customer's file name never reaches the storage path. They are served only through `GET /receipts/{id}`, with `nosniff` and `no-store`, to the owner or an administrator. Anyone else gets a 404.
+- **Rate limit:** uploads are limited to 10 a minute.
+- **Replacing a receipt:** a new upload while a receipt is still under review replaces it, and the old one is kept as "replaced". After approval, uploads are refused.
+
 ## FR-021 — Payment Approval
 
 The administrator must be able to:
@@ -613,6 +619,8 @@ The administrator must be able to:
 - See prior review actions.
 
 A rejected payment may be resubmitted.
+
+**Implemented (Milestone 6):** review details are stored on each receipt in `payment_receipts`: `status`, `reviewed_by`, `reviewed_at` and `rejection_reason`. The list of receipts is therefore the review history. `study_payments` only gains `approved_by` and `approved_at`. The rejection reason is not copied onto the payment, which differs from the column list in §13. Approval and rejection lock the payment row and only act on a payment that is `under_review` and has a submitted receipt. An approved payment cannot be reviewed again. The admin panel adds a payments list (under review first, with status filters and search) and a review page that shows the receipt inline.
 
 ## FR-022 — Study Price in Startup Costs
 

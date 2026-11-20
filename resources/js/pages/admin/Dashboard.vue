@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
-import { Users } from '@lucide/vue';
+import { Head, Link } from '@inertiajs/vue3';
+import { Banknote, Users } from '@lucide/vue';
 import Heading from '@/components/Heading.vue';
 import {
     Card,
@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/card';
 import { formatNumber } from '@/lib/format';
 import { dashboard } from '@/routes/admin';
+import { index as payments } from '@/routes/admin/payments';
 
 defineOptions({
     layout: {
@@ -25,6 +26,7 @@ defineOptions({
 
 defineProps<{
     customersCount: number;
+    paymentsUnderReviewCount: number;
 }>();
 </script>
 
@@ -48,6 +50,33 @@ defineProps<{
                     </CardTitle>
                 </CardContent>
             </Card>
+            <Link
+                :href="payments({ query: { status: 'under_review' } })"
+                class="rounded-xl focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+            >
+                <Card class="h-full transition-colors hover:border-primary/50">
+                    <CardHeader
+                        class="flex flex-row items-center justify-between gap-2"
+                    >
+                        <CardDescription
+                            >إيصالات بانتظار المراجعة</CardDescription
+                        >
+                        <Banknote class="size-4 text-muted-foreground" />
+                    </CardHeader>
+                    <CardContent>
+                        <CardTitle
+                            class="text-3xl tabular-nums"
+                            :class="
+                                paymentsUnderReviewCount > 0
+                                    ? 'text-amber-600 dark:text-amber-400'
+                                    : ''
+                            "
+                        >
+                            {{ formatNumber(paymentsUnderReviewCount) }}
+                        </CardTitle>
+                    </CardContent>
+                </Card>
+            </Link>
         </div>
     </div>
 </template>

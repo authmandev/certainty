@@ -2,16 +2,25 @@
 import { Head, Link } from '@inertiajs/vue3';
 import { CalendarClock, Info, PencilLine } from '@lucide/vue';
 import Heading from '@/components/Heading.vue';
+import PaymentPanel from '@/components/payment/PaymentPanel.vue';
 import PaymentStatusBadge from '@/components/PaymentStatusBadge.vue';
 import StudyStatusBadge from '@/components/StudyStatusBadge.vue';
 import { Button } from '@/components/ui/button';
-import { formatCurrency, formatDate } from '@/lib/format';
+import { formatDate } from '@/lib/format';
 import { dashboard } from '@/routes';
 import { edit } from '@/routes/studies';
-import type { Study } from '@/types';
+import type {
+    BankDetails,
+    ReceiptRules,
+    Study,
+    StudyPaymentDetail,
+} from '@/types';
 
 const props = defineProps<{
     study: { data: Study };
+    payment: { data: StudyPaymentDetail } | null;
+    bank: BankDetails;
+    receiptRules: ReceiptRules;
 }>();
 
 defineOptions({
@@ -111,33 +120,14 @@ const study = props.study.data;
                 </div>
             </section>
 
-            <aside
-                v-if="study.payment"
-                class="space-y-4 rounded-2xl border bg-card p-6 text-sm"
-            >
-                <h2 class="font-semibold">الدفع</h2>
-                <div>
-                    <p class="text-muted-foreground">رسوم الدراسة</p>
-                    <p class="mt-1 text-2xl font-bold tabular-nums">
-                        {{
-                            formatCurrency(
-                                study.payment.amount,
-                                study.payment.currency,
-                            )
-                        }}
-                    </p>
-                </div>
-                <div>
-                    <p class="text-muted-foreground">رقم مرجع الدفع</p>
-                    <p class="mt-1 font-medium" dir="ltr">
-                        {{ study.payment.reference_number }}
-                    </p>
-                </div>
-                <p class="leading-relaxed text-muted-foreground">
-                    اكتب رقم المرجع في وصف التحويل البنكي. ستظهر بيانات الحساب
-                    البنكي ورفع الإيصال هنا قريبًا.
-                </p>
-            </aside>
+            <PaymentPanel
+                v-if="payment"
+                class="self-start"
+                :study-id="study.id"
+                :payment="payment.data"
+                :bank="bank"
+                :receipt-rules="receiptRules"
+            />
         </div>
     </div>
 </template>

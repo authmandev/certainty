@@ -43,3 +43,16 @@ export function formatCompact(value: number): string {
 export function formatPercent(value: number, decimals = 1): string {
     return `${formatNumber(value, decimals)}%`;
 }
+
+export function formatDateTime(value: string): string {
+    return new Intl.DateTimeFormat(LOCALE, {
+        dateStyle: 'medium',
+        timeStyle: 'short',
+    }).format(new Date(value));
+}
+
+export function formatFileSize(bytes: number): string {
+    return bytes >= 1024 * 1024
+        ? `${formatNumber(bytes / (1024 * 1024), 1)} ميجابايت`
+        : `${formatNumber(Math.max(1, Math.round(bytes / 1024)))} كيلوبايت`;
+}

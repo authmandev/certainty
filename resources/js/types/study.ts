@@ -211,3 +211,64 @@ export type StudyPreview = {
     }[];
     warnings: PreviewWarning[];
 };
+
+export type ReceiptStatus = 'submitted' | 'approved' | 'rejected' | 'replaced';
+
+export type PaymentReceipt = {
+    id: number;
+    file_name: string;
+    mime_type: string;
+    file_size: number;
+    url: string;
+    status: LabelledStatus<ReceiptStatus>;
+    submitted_at: string;
+    reviewed_at: string | null;
+    reviewer?: { name: string } | null;
+    rejection_reason: string | null;
+};
+
+export type StudyPaymentDetail = StudyPayment & {
+    id: number;
+    accepts_receipts: boolean;
+    approved_at: string | null;
+    created_at: string;
+    customer?: { name: string; email: string };
+    study?: {
+        id: number;
+        reference: string;
+        title: string;
+        status: LabelledStatus<StudyStatus>;
+        completion_percentage: number;
+    };
+    latest_receipt?: PaymentReceipt | null;
+    receipts?: PaymentReceipt[];
+};
+
+export type BankDetails = {
+    name: string | null;
+    account_name: string | null;
+    iban: string | null;
+};
+
+export type ReceiptRules = {
+    extensions: string[];
+    max_kilobytes: number;
+};
+
+export type Paginated<T> = {
+    data: T[];
+    links: {
+        first: string | null;
+        last: string | null;
+        prev: string | null;
+        next: string | null;
+    };
+    meta: {
+        current_page: number;
+        last_page: number;
+        from: number | null;
+        to: number | null;
+        total: number;
+        per_page: number;
+    };
+};

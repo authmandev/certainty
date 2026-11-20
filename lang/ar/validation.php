@@ -188,6 +188,8 @@ return [
         'token' => 'الرمز',
         'code' => 'الرمز',
         'title' => 'اسم الدراسة',
+        'receipt' => 'إيصال التحويل',
+        'reason' => 'سبب الرفض',
         'project_name' => 'اسم المشروع',
         'settings.currency' => 'العملة',
         'settings.decimals' => 'خانات الأعشار',
