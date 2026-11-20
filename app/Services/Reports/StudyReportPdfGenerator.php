@@ -2,6 +2,8 @@
 
 namespace App\Services\Reports;
 
+use App\Enums\AuditAction;
+use App\Models\StudyAuditLog;
 use App\Models\StudyReport;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
@@ -55,6 +57,8 @@ class StudyReportPdfGenerator
             Storage::disk($report->disk)->put($path, $content);
 
             $report->forceFill(['pdf_path' => $path, 'generated_at' => now()])->save();
+
+            StudyAuditLog::record($report->study_id, null, AuditAction::ReportGenerated, null, ['report_version' => $report->version]);
 
             return $report;
         });

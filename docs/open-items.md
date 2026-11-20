@@ -7,7 +7,7 @@ Every unanswered question, unconfirmed assumption, pending input or deferred tas
 - **Blocks** names the milestone that needs the answer. "—" means it only needs confirming.
 - When an item is resolved, update the BRD section it came from.
 
-_Last updated: 20 November 2026 (Milestone 7)._
+_Last updated: 20 November 2026 (Milestone 8)._
 
 ---
 
@@ -15,7 +15,6 @@ _Last updated: 20 November 2026 (Milestone 7)._
 
 | ID | Question | Current behaviour / default | Blocks | Source | Status |
 |---|---|---|---|---|---|
-| OI-01 | When an admin extends a draft that has **not** expired yet, are the days added to the current deadline or counted from today? | Not built yet. Recommendation: add to the current deadline. | M8 | BRD O-02, FR-039 | Open |
 | OI-02 | Is the Word-file jQuery code the authoritative calculation reference, rather than the Netlify React build? | The Word file is treated as authoritative, and the engine matches it exactly. | M4 sign-off | BRD O-03 | Open |
 | OI-03 | Does the old `submission.php` contain any calculations? Can the client supply `readableAmount()` if report number formatting must match the old reports exactly? | Assumed display only. Numbers are formatted with Latin digits and the selected decimals. | M7 | BRD O-04, M-01, M-03 | Open |
 | OI-04 | Default study currency, and should the currency list be limited (for example to Gulf currencies)? | Default is SAR. 20 currencies are offered (Gulf, Arab, USD, EUR, GBP), configured in `config/certainty.php`. | — | BRD O-06 | Open |
@@ -35,6 +34,8 @@ _Last updated: 20 November 2026 (Milestone 7)._
 | OI-27 | Can a customer replace a receipt that is still under review? | Yes. The new upload replaces it, and the old one stays in the history as "replaced". Once a payment is approved, uploads are locked. | — | Milestone 6, BRD FR-019 | Open |
 | OI-28 | Should anyone be notified by email: admins when a receipt arrives, and customers when it is approved or rejected? | No emails yet; the BRD doesn't require them. Admins see the pending count on their dashboard, and customers see the status and any rejection reason on the study page. | — | Milestone 6 | Open |
 | OI-29 | Rejection reasons must be 5 to 1000 characters, and approval cannot be undone. Confirm. | Implemented. Undoing a decision would need a future admin correction tool (M8). | M8 | Milestone 6, BRD FR-021 | Open |
+| OI-32 | When reopening a finalized study, the admin enters how many days the customer gets to make corrections (default 14). Confirm this, or set a fixed period. | Implemented. The days and reason are recorded in the audit history. | — | Milestone 8, BRD FR-040 | Open |
+| OI-33 | Should account-level events (admin creation or promotion, profile changes) also be audited? The audit history is per study, covering the FR-042 actions. | Not recorded. `certainty:create-admin` is run by operators from the server shell. | — | Milestone 8, BRD FR-042 | Open |
 | OI-30 | Review a sample final report against the old Cassandra reports. | The layout is rebuilt from the legacy `OUTPUT_PART*` markup and labels (M-03). Statements are grouped as up to five years per table, and project, market and SWOT text is included. A sample can be generated from any finalized study. | Launch | Milestone 7, BRD FR-032 | Open |
 
 ## 2. Content and assets (Client)
@@ -50,11 +51,10 @@ _Last updated: 20 November 2026 (Milestone 7)._
 
 | ID | Task | Notes | Blocks | Status |
 |---|---|---|---|---|
-| OI-19 | Visual QA of the landing page, auth pages, study editor and live results panel (sticky column at 2xl, sheet below that) at desktop, tablet and mobile, in light and dark mode. | Not seen rendered: headless screenshots were blocked by the permission system. Manual review needed, or allow the Playwright screenshot command. | Launch | Open |
-| OI-20 | A way to create admin users in production, such as an `artisan` command. | Only the seeder creates an admin today, and it is for development. | M8 / launch | Open |
+| OI-19 | Visual QA of the landing page, auth pages, study editor and live results panel (sticky column at 2xl, sheet below that) at desktop, tablet and mobile, in light and dark mode. | The admin pages (dashboard, users, studies, study detail, audit log) were checked in Milestone 8 with headless Chrome against a throwaway SQLite copy, in light, dark and mobile. The customer-facing pages still need the same pass. | Launch | Open |
 | OI-21 | Production setup: run `ReferenceOptionSeeder` on every deploy, run the scheduler (`studies:expire-drafts` hourly) and a queue worker (report PDFs), and define a backup strategy for the database and private files (receipts, reports). | Backups are BRD NFR-008. | M9 | Open |
 | OI-22 | Delete the unused starter-kit auth layouts (`AuthSimpleLayout`, `AuthCardLayout`, `AuthSplitLayout`). | Replaced by `AuthShowcaseLayout`. | — | Open |
-| OI-23 | Git housekeeping: delete the `milestone-1-foundation` branch, merge Milestone 3 and Milestone 4, then merge Milestones 5 to 7 (`milestone-7-reports`, stacked on 6). | After each squash-merge, rebase the next branch with `git rebase --onto origin/main <old-base>`. | — | Open |
+| OI-23 | Git housekeeping: delete the `milestone-1-foundation` branch, merge Milestone 3 and Milestone 4, then merge Milestones 5 to 8 (`milestone-8-administration`, stacked on 7). | After each squash-merge, rebase the next branch with `git rebase --onto origin/main <old-base>`. | — | Open |
 | OI-31 | Install Chromium on every server that renders reports, and run a queue worker. The PDF job needs a worker; downloads fall back to rendering on demand. | Set `LARAVEL_PDF_CHROME_BINARY` if Chromium isn't on `PATH`, and `LARAVEL_PDF_CHROME_NO_SANDBOX=true` in containers. Ubuntu needs `chromium` or `chrome-headless-shell` plus `libnss3`, `libnspr4` and `libasound2`. Alternatively, switch `LARAVEL_PDF_DRIVER` to `gotenberg` or `cloudflare` with no code change. This machine has no Chromium installed; the sample was rendered with Chrome for Testing in a temporary folder. | Launch | Open |
 
 ---
@@ -68,3 +68,5 @@ _Last updated: 20 November 2026 (Milestone 7)._
 | — | Contact, Privacy and Terms page layout (BRD O-01) | Contact is a landing-page section; Privacy and Terms are separate pages (Milestone 2). |
 | — | Q-04 "balance sheet may not balance" | Withdrawn: the original code balances in every reference scenario (BRD §26.5). |
 | — | Three skipped tests | Starter-kit two-factor authentication tests. 2FA is disabled and not in V1 scope, so they are expected to skip. |
+| OI-01 | Extending a draft that hasn't expired | The days are added to the current deadline; an expired draft counts from the time of extension (BRD FR-039). Implemented in Milestone 8 (`ExtendStudyAction`). |
+| OI-20 | Creating admins in production | `php artisan certainty:create-admin {email}` (with `--promote` for existing users), Milestone 8. |

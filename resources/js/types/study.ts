@@ -295,3 +295,43 @@ export type StudyReportVersion = {
     view_url: string;
     download_url: string;
 };
+
+export type AuditActionValue =
+    | 'receipt_submitted'
+    | 'payment_approved'
+    | 'payment_rejected'
+    | 'draft_extended'
+    | 'study_finalized'
+    | 'study_reopened'
+    | 'report_generated';
+
+export type AuditLogEntry = {
+    id: number;
+    action: LabelledStatus<AuditActionValue>;
+    actor?: { name: string; is_admin: boolean } | null;
+    study?: { id: number; reference: string; title: string };
+    old_values: Record<string, unknown> | null;
+    new_values: Record<string, unknown> | null;
+    reason: string | null;
+    created_at: string;
+};
+
+export type StudyExtensionEntry = {
+    id: number;
+    previous_expires_at: string;
+    new_expires_at: string;
+    extension_days: number;
+    reason: string;
+    approver: string;
+    created_at: string;
+};
+
+export type AdminUserSummary = {
+    id: number;
+    name: string;
+    email: string;
+    role: LabelledStatus<'customer' | 'admin'>;
+    email_verified_at: string | null;
+    created_at: string;
+    studies_count: number;
+};

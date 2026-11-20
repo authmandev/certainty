@@ -1,6 +1,9 @@
 <?php
 
+use App\Enums\PaymentStatus;
 use App\Enums\UserRole;
+use App\Models\Study;
+use App\Models\StudyPayment;
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Testing\AssertableInertia as Assert;
@@ -24,14 +27,25 @@ test('customers cannot visit the admin dashboard', function () {
         ->assertForbidden();
 });
 
-test('administrators can visit the admin dashboard', function () {
-    User::factory()->count(2)->create();
+test('administrators see the platform summary', function () {
+    User::factory()->create(['created_at' => now()->subDays(60)]);
+    StudyPayment::factory()->create(['status' => PaymentStatus::UnderReview]);
+    StudyPayment::factory()->create(['status' => PaymentStatus::Approved, 'amount' => 1200, 'currency' => 'SAR']);
+    Study::factory()->create(['expires_at' => now()->addDays(3)]);
+    Study::factory()->expired()->create();
 
     $this->actingAs(User::factory()->admin()->create())
         ->get(route('admin.dashboard'))
         ->assertOk()
         ->assertInertia(fn (Assert $page) => $page
             ->component('admin/Dashboard')
-            ->where('customersCount', 2),
+            ->where('customers.total', 5)
+            ->where('customers.new', 4)
+            ->where('paymentCounts.under_review', 1)
+            ->where('paymentCounts.pending', 0)
+            ->where('approvedRevenue.amount', 1200)
+            ->where('studyCounts.draft', 3)
+            ->where('studyCounts.expiring', 1)
+            ->where('studyCounts.expired', 1),
         );
 });

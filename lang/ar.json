@@ -26,5 +26,9 @@
     "Please confirm that the study data is final.": "يرجى تأكيد أن بيانات الدراسة نهائية.",
     "The final report is not available for this study.": "التقرير النهائي غير متاح لهذه الدراسة.",
     "Study finalized. Your report is being prepared.": "تم إنهاء الدراسة، وجارٍ إعداد التقرير النهائي.",
-    "The report could not be generated right now. Please try again in a few minutes.": "تعذّر إعداد التقرير الآن. يرجى المحاولة بعد دقائق."
+    "The report could not be generated right now. Please try again in a few minutes.": "تعذّر إعداد التقرير الآن. يرجى المحاولة بعد دقائق.",
+    "A finalized study cannot be extended. Reopen it instead.": "لا يمكن تمديد دراسة منتهية. أعد فتحها بدلًا من ذلك.",
+    "Only a finalized study can be reopened.": "لا يمكن إعادة فتح إلا دراسة منتهية.",
+    "Study extended.": "تم تمديد مدة الدراسة.",
+    "Study reopened. The customer can edit it again.": "تمت إعادة فتح الدراسة، ويمكن للعميل تعديلها من جديد."
 }

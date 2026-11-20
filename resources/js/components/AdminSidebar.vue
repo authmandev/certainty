@@ -1,6 +1,13 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
-import { Banknote, LayoutDashboard, ShieldCheck } from '@lucide/vue';
+import {
+    Banknote,
+    FileText,
+    History,
+    LayoutDashboard,
+    ShieldCheck,
+    Users,
+} from '@lucide/vue';
 import NavMain from '@/components/NavMain.vue';
 import NavUser from '@/components/NavUser.vue';
 import {
@@ -12,8 +19,10 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { dashboard } from '@/routes/admin';
+import { auditLog, dashboard } from '@/routes/admin';
 import { index as payments } from '@/routes/admin/payments';
+import { index as studies } from '@/routes/admin/studies';
+import { index as users } from '@/routes/admin/users';
 import type { NavItem } from '@/types';
 
 const mainNavItems: NavItem[] = [
@@ -23,9 +32,24 @@ const mainNavItems: NavItem[] = [
         icon: LayoutDashboard,
     },
     {
+        title: 'المستخدمون',
+        href: users(),
+        icon: Users,
+    },
+    {
+        title: 'الدراسات',
+        href: studies(),
+        icon: FileText,
+    },
+    {
         title: 'المدفوعات',
         href: payments(),
         icon: Banknote,
+    },
+    {
+        title: 'سجل العمليات',
+        href: auditLog(),
+        icon: History,
     },
 ];
 </script>
