@@ -248,7 +248,7 @@ const sectionTitles: Record<PreviewWarning['section'], string> = {
                         متوسط صافي الربح السنوي
                     </p>
                     <p
-                        class="mt-1 font-display text-lg leading-tight font-bold break-words tabular-nums"
+                        class="mt-1 font-display text-base leading-tight font-bold whitespace-nowrap tabular-nums"
                         :class="
                             preview.indicators.average_profit < 0
                                 ? 'text-red-600 dark:text-red-400'

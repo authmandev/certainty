@@ -175,8 +175,10 @@ function submitReject(): void {
                         </div>
                         <div class="flex justify-between gap-3 py-2">
                             <dt class="text-muted-foreground">مرجع الدفع</dt>
-                            <dd class="font-medium" dir="ltr">
-                                {{ payment.reference_number }}
+                            <dd class="font-medium">
+                                <span dir="ltr">{{
+                                    payment.reference_number
+                                }}</span>
                             </dd>
                         </div>
                         <div class="flex justify-between gap-3 py-2">

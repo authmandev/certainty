@@ -72,8 +72,8 @@ const study = computed(() => props.study.data);
                     <dl class="grid gap-4 text-sm sm:grid-cols-2">
                         <div>
                             <dt class="text-muted-foreground">رقم الدراسة</dt>
-                            <dd class="font-medium" dir="ltr">
-                                {{ study.reference }}
+                            <dd class="font-medium">
+                                <span dir="ltr">{{ study.reference }}</span>
                             </dd>
                         </div>
                         <div>

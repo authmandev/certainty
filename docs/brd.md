@@ -1706,6 +1706,12 @@ These features may be implemented in later phases through separate approved requ
 
 **Done when:** All approved V1 acceptance scenarios pass.
 
+**Implemented (Milestone 9):**
+- **Coverage:** the §21 and §22 mapping is in `docs/acceptance.md`. Gaps were filled: an expired reset token, duplicate approval side effects, and the end-to-end `AcceptanceFlowTest`.
+- **Security:** baseline security headers. The private disk's signed-URL serving is turned off, so receipts and reports are reachable only through policy-checked routes. Composer and npm audits are clean.
+- **Deployment:** `docs/deployment.md` covers the environment, first and repeat deployment, cron, the queue worker, the PDF renderer, the web server, and backup and recovery (NFR-008). `php artisan certainty:check-production` verifies a server before launch.
+- **Scheduled cleanup:** `auth:clear-resets` and `queue:prune-failed` run daily.
+
 ---
 
 # 21. Required Automated Test Coverage
